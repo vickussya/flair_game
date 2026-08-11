@@ -21,6 +21,7 @@ namespace Flair
         private InputAction moveAction;
         private InputAction lookAction;
         private InputAction jumpAction;
+        private InputAction interactAction;
 
         /// <summary>WASD / left stick, as (x = strafe, y = forward).</summary>
         public Vector2 Move => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
@@ -33,6 +34,14 @@ namespace Flair
 
         /// <summary>True only on the frame the jump button went down.</summary>
         public bool JumpPressedThisFrame => jumpAction != null && jumpAction.WasPressedThisFrame();
+
+        /// <summary>
+        /// True on the frame Interact completes. The shipped asset gives Interact
+        /// a Hold interaction (~0.4s), so this is a short hold rather than a tap.
+        /// Delete "Hold" on the Interact action to make it instant.
+        /// </summary>
+        public bool InteractPerformedThisFrame =>
+            interactAction != null && interactAction.WasPerformedThisFrame();
 
         private void Awake()
         {
@@ -56,10 +65,13 @@ namespace Flair
             moveAction = playerMap.FindAction("Move", throwIfNotFound: false);
             lookAction = playerMap.FindAction("Look", throwIfNotFound: false);
             jumpAction = playerMap.FindAction("Jump", throwIfNotFound: false);
+            interactAction = playerMap.FindAction("Interact", throwIfNotFound: false);
 
-            if (moveAction == null || lookAction == null || jumpAction == null)
+            if (moveAction == null || lookAction == null ||
+                jumpAction == null || interactAction == null)
             {
-                Debug.LogError($"PlayerInputReader: '{actionMapName}' is missing Move, Look or Jump.", this);
+                Debug.LogError($"PlayerInputReader: '{actionMapName}' is missing one of " +
+                               "Move, Look, Jump or Interact.", this);
                 enabled = false;
             }
         }

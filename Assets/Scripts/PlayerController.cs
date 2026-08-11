@@ -3,9 +3,10 @@ using UnityEngine;
 namespace Flair
 {
     /// <summary>
-    /// Stage 1 greybox player: walk, look, jump. First-person baseline per
-    /// concept.md 6.2 ("camera-eyes"). No sprint, crouch or stamina yet --
-    /// those belong with the systems they depend on in a later stage.
+    /// First-person player: walk, look, jump. Per concept.md 6.2 ("camera-eyes").
+    /// The camera itself is not parented here -- this only aims the eye anchor,
+    /// and PlayerCameraRig decides where the camera actually sits. That split is
+    /// what lets a vision take the camera away from the head.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
@@ -14,7 +15,7 @@ namespace Flair
         [Tooltip("Leave empty to use the reader on this same object.")]
         [SerializeField] private PlayerInputReader input;
 
-        [Tooltip("The child camera. Pitches up/down; the body handles yaw.")]
+        [Tooltip("Child transform at eye height. Pitches up/down; the body yaws.")]
         [SerializeField] private Transform cameraPivot;
 
         [Header("Movement")]
@@ -37,6 +38,12 @@ namespace Flair
         private CharacterController controller;
         private float pitch;
         private float verticalVelocity;
+
+        /// <summary>The eye position a vision camera should frame.</summary>
+        public Transform CameraPivot => cameraPivot;
+
+        /// <summary>False while a vision has taken control away from the player.</summary>
+        public bool ControlEnabled { get; private set; } = true;
 
         private void Awake()
         {
@@ -76,8 +83,27 @@ namespace Flair
             Cursor.visible = true;
         }
 
+        /// <summary>
+        /// Called by VisionDirector. While disabled the player is frozen in place --
+        /// gravity included, so do not disable control mid-air.
+        /// </summary>
+        public void SetControlEnabled(bool value)
+        {
+            ControlEnabled = value;
+
+            if (!value)
+            {
+                verticalVelocity = 0f;
+            }
+        }
+
         private void Update()
         {
+            if (!ControlEnabled)
+            {
+                return;
+            }
+
             HandleLook();
             HandleMove();
         }
@@ -90,7 +116,7 @@ namespace Flair
             // Yaw turns the whole body so movement follows the camera.
             transform.Rotate(Vector3.up, look.x);
 
-            // Pitch stays on the camera only, clamped so you cannot backflip.
+            // Pitch stays on the eye anchor only, clamped so you cannot backflip.
             pitch = Mathf.Clamp(pitch - look.y, minPitch, maxPitch);
             cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
