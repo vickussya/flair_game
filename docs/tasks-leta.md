@@ -10,13 +10,27 @@ Branch: **`leatrix_`**. Tick your own boxes here; nobody else edits this file.
 
 Two separate deliverables — see [tasks.md](tasks.md).
 
-**M1 — the rough demo, 15 September.** Playable proof for the teachers, not a
-finished thing. **Rough is the correct amount of work here, not a compromise** —
-a rough model under a good grade beats a beautiful one with no grade.
+**M1 — the rough demo. Finish by 1 September**, hard deadline the 15th. Playable
+proof for the teachers, not a finished thing. **Rough is the correct amount of
+work here, not a compromise** — a rough model under a good grade beats a
+beautiful one with no grade. The fortnight after 1 Sep is buffer, not working time.
 
-> **3** *(full — Viki is blocked on it)* → **17** *(full)* → **13** *(greybox
-> only)* → **20** *(rough pass)* → **11** *(rough: silhouette + scale)* → **12**
-> *(rough: idle + breath)* → **18b** *(one vision)* → **22** *(three sounds)*
+| Due | Task | M1 scope |
+|---|---|---|
+| **Mon 17 Aug** | 17 Style guide | Full — it gates all vision art |
+| **Wed 19 Aug** | 3 Clue data model | Full — **Viki is blocked until this lands** |
+| **Sun 23 Aug** | 13 District layout | Greybox only, no art |
+| **Sun 23 Aug** | 20 Noir grade | Rough pass |
+| **Tue 26 Aug** | 11 Bunk model | Rough: silhouette + scale |
+| **Tue 26 Aug** | 18b Your vision | One vision, not the set |
+| **Fri 28 Aug** | 12 Rig + breath | Rough: idle + breath. **Send Viki the clip length.** |
+| **Sat 30 Aug** | 22 Sound | Three sounds: footsteps, smell cue, ambience |
+| **Mon 1 Sep** | Demo integrated and built | — |
+
+**Your first two tasks are the whole schedule's bottleneck.** Task 17 gates every
+piece of vision art either of you draws, and task 3 blocks Viki from starting his
+systems work at all. They are not the interesting tasks, and they are the ones
+that must not slip.
 
 **M2 — the bachelor project, May.** The finished level. Everything above gets
 completed rather than replaced, plus: **14**, **15**, **16**, **21**, **23** and

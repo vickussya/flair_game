@@ -9,13 +9,25 @@ Branch: **`vickussya`**. Tick your own boxes here; nobody else edits this file.
 
 Two separate deliverables — see [tasks.md](tasks.md).
 
-**M1 — the rough demo, 15 September.** Playable proof for the teachers, not a
-finished thing. Rough is the correct amount of work here, not a compromise.
+**M1 — the rough demo. Finish by 1 September**, hard deadline the 15th. Playable
+proof for the teachers, not a finished thing. Rough is the correct amount of work
+here, not a compromise. The fortnight after 1 Sep is buffer, not working time.
 
-> **25** (build early) → **1** *(rough: truth + 3-clue chain only)* → **18a**
-> *(one vision)* → **4** *(minimal: 3 clues → ending)* → **24** *(rough: 3
-> markers)* → **19** → **9** *(close button only)* → **10** *(title + end card)*
-> — with **26** running throughout.
+| Due | Task | M1 scope |
+|---|---|---|
+| **Sat 16 Aug** | 25 Test build | Do it first |
+| **Wed 19 Aug** | 1 Case skeleton | Rough: truth + 3-clue chain only |
+| **Tue 26 Aug** | 18a Your vision | One vision, not the set |
+| **Wed 27 Aug** | 4 Clue gating | Minimal: 3 clues → ending |
+| **Fri 28 Aug** | 24 Level scripting | Rough: 3 markers wired |
+| **Sat 30 Aug** | 19 Real vision player | Full |
+| **Sun 31 Aug** | 9 Vision close button | Close is enough |
+| **Sun 31 Aug** | 10 Title + end card | Not a menu system |
+| **Mon 1 Sep** | Demo integrated and built | — |
+| ongoing | 26 Milestone tracking | Weekly check |
+
+You are blocked on Leta twice: task 3 (due 19 Aug) gates your 4 and 24, and task
+12 (due 28 Aug) gates your 19. If either slips, say so early rather than waiting.
 
 **M2 — the bachelor project, May.** The finished level. Everything above gets
 completed rather than replaced, plus: **2**, **6**, **5**, **7**, **8**, the full
