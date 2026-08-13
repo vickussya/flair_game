@@ -5,7 +5,29 @@ Overview of both our workloads: **[tasks.md](tasks.md)**.
 
 Branch: **`vickussya`**. Tick your own boxes here; nobody else edits this file.
 
-**Suggested order:** 1 → 25 → 2 → 6 → 4 → 24 → 8 → 5 → 7 → 9 → 10 → 18a → 19 → 26 running throughout.
+## Which of these are due when
+
+Two separate deliverables — see [tasks.md](tasks.md).
+
+**M1 — the rough demo, 15 September.** Playable proof for the teachers, not a
+finished thing. Rough is the correct amount of work here, not a compromise.
+
+> **25** (build early) → **1** *(rough: truth + 3-clue chain only)* → **18a**
+> *(one vision)* → **4** *(minimal: 3 clues → ending)* → **24** *(rough: 3
+> markers)* → **19** → **9** *(close button only)* → **10** *(title + end card)*
+> — with **26** running throughout.
+
+**M2 — the bachelor project, May.** The finished level. Everything above gets
+completed rather than replaced, plus: **2**, **6**, **5**, **7**, **8**, the full
+Part 5, full menus, and the stretch mechanics (red herrings, smell stamina, wolf
+meter, replay degradation).
+
+The task descriptions below are written to the **finished** M2 standard. For M1,
+do the rough version the board specifies and come back.
+
+**Start with 25.** A build that fails on someone else's machine is the one
+failure mode that turns the demo into nothing, and it costs half a day to rule
+out now instead of on 14 September.
 
 ---
 

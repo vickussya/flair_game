@@ -5,7 +5,11 @@ hole. You play Bunk Romero, a werewolf private eye who solves crimes by smell:
 you investigate in 3D, and every true lead pulls you into a hand-drawn 2D
 "vision" that reconstructs the crime.
 
-Unity 6 (`6000.5.7f1`), URP, C#. Bachelor project — single-level demo.
+Unity 6 (`6000.5.7f1`), URP, C#.
+
+Two milestones: a **rough playable demo by 15 September** as proof of concept for
+the teachers, and the **finished one-level game by May** as the bachelor project.
+Further levels come after that. See [docs/tasks.md](docs/tasks.md).
 
 ## Documentation
 

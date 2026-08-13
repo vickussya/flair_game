@@ -118,7 +118,15 @@ what turn a small scene conflict into an unfixable one.
 ## 4. Your tasks
 
 Sizes: **S** ≈ half a day, **M** ≈ 1–3 days, **L** ≈ a week or more.
-Demo deadline is **15 September**.
+
+There are **two deadlines and they are different things**:
+
+- **15 September — the demo.** A rough, playable proof for the teachers. Not
+  finished, and not meant to be.
+- **May — the bachelor project.** The finished one-level game.
+
+Most tasks below appear in both: a rough version for September, finished for May.
+[tasks.md](tasks.md) says which scope applies to which.
 
 > **[tasks-leta.md](tasks-leta.md) has the step-by-step for every task below** —
 > what it is, how to do it, and how to know it is done. The table here is just

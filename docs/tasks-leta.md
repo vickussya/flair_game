@@ -6,10 +6,27 @@ branch rules: **[leta-getting-started.md](leta-getting-started.md)**.
 
 Branch: **`leatrix_`**. Tick your own boxes here; nobody else edits this file.
 
-**Suggested order:** 3 → 17 → 13 → 11 → 20 → 12 → 14 → 18b → 15 → 16 → 21 → 22 → 23.
+## Which of these are due when
 
-The first three unblock other work, so start there even though they are not the
-most interesting.
+Two separate deliverables — see [tasks.md](tasks.md).
+
+**M1 — the rough demo, 15 September.** Playable proof for the teachers, not a
+finished thing. **Rough is the correct amount of work here, not a compromise** —
+a rough model under a good grade beats a beautiful one with no grade.
+
+> **3** *(full — Viki is blocked on it)* → **17** *(full)* → **13** *(greybox
+> only)* → **20** *(rough pass)* → **11** *(rough: silhouette + scale)* → **12**
+> *(rough: idle + breath)* → **18b** *(one vision)* → **22** *(three sounds)*
+
+**M2 — the bachelor project, May.** The finished level. Everything above gets
+completed rather than replaced, plus: **14**, **15**, **16**, **21**, **23** and
+the remaining visions.
+
+The task descriptions below are written to the **finished** M2 standard. For M1,
+do the rough version the board specifies and come back to it.
+
+**Start with 3 and 17.** Neither is the interesting work, but task 3 blocks Viki
+completely and task 17 gates every piece of vision art either of us draws.
 
 ---
 

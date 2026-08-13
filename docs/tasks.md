@@ -1,16 +1,40 @@
 # Task board
 
-Everything both of us are building for the demo, in one place, so neither of us
-has to guess what the other is doing.
+Everything both of us are building, in one place, so neither of us has to guess
+what the other is doing.
 
-- **Demo deadline: 15 September.**
 - Sizes: **S** ≈ half a day · **M** ≈ 1–3 days · **L** ≈ a week or more.
 - Step-by-step instructions: **[tasks-viki.md](tasks-viki.md)** · **[tasks-leta.md](tasks-leta.md)**
 - Design bible: **[concept.md](concept.md)**
 
-## Who edits what
+## The two milestones
 
-To stop us fighting over the same file:
+These are different deliverables and confusing them will wreck the schedule.
+
+### M1 — Demo · **15 September** · ~4 weeks
+
+Proof to the teachers that we can build a game. **Playable and rough. Not
+finished, and not pretending to be.** It has to hold together for five minutes
+and show the idea working end to end: walk the city, catch a scent, watch a real
+2D vision, learn something, reach an ending.
+
+What makes M1 succeed is *coverage*, not polish — one of everything, visibly
+working. A rough model under a good grade with a real vision beats a beautiful
+street with a placeholder panel.
+
+### M2 — Bachelor project · **May** · ~9 months
+
+The finished one-level game. Ready to play, looking finished, start to end:
+dialogue, the full case, the confrontation, real art, real audio, menus.
+
+Everything in M1 gets **finished** here, not replaced. Nothing built for the demo
+should be throwaway.
+
+### M3 — After the bachelor
+
+Further levels and the bigger systems. Not scheduled.
+
+## Who edits what
 
 | File | Edited by | How |
 |---|---|---|
@@ -27,50 +51,70 @@ Tick your own boxes in your own file. Nobody edits the other person's file.
 |---|---|---|
 | 1 | Greybox: capsule walks, looks, jumps | ✅ |
 | 2 | Vertical slice: marker → smell → vision → clue logged | ✅ |
-| 3 | Full case logic | ⬜ blocked on task 1 |
 
-## The board
+Stage 2 means the spine of M1 already runs. The demo is mostly a matter of
+replacing placeholders with rough-but-real content.
 
-| # | Task | Category | Size | Owner | Blocked by | Blocks |
-|---|---|---|---|---|---|---|
-| 1 | Write Part 5: case truth + clue chain | Design | L | **Viki** | — | 4, 5, 7, 24 |
-| 2 | Write Part 4: characters + scent signatures | Design | M | **Viki** | — | 6 |
-| 3 | Clue / case data model (settles 8.4) | Systems | M | **Leta** | — | 4, 8, 24 |
-| 4 | Case gating: N clues unlock the finale | Systems | M | **Viki** | 1, 3 | 7 |
-| 5 | Client conversation → case start | Systems | M | **Viki** | 1, 6 | — |
-| 6 | Dialogue system (bubbles + choices) | Systems | L | **Viki** | 2 | 5, 7 |
-| 7 | Final confrontation | Systems | L | **Viki** | 1, 4, 6 | — |
-| 8 | Case file UI | UI | L | **Viki** | 3 | — |
-| 9 | Vision play / replay / close controls | UI | M | **Viki** | — | — |
-| 10 | Main menu + results screen | UI | M | **Viki** | — | — |
-| 11 | Bunk character model | 3D art | L | **Leta** | — | 12, 16 |
-| 12 | Bunk rig + animations (incl. deep breath) | Animation | L | **Leta** | 11 | 19 |
-| 13 | Demo district layout (greybox) | Level | M | **Leta** | — | 14, 24 |
-| 14 | Environment modular kit | 3D art | L | **Leta** | 13 | 15 |
-| 15 | Environment materials + textures | Textures | L | **Leta** | 14, 20 | — |
-| 16 | Character textures | Textures | M | **Leta** | 11, 17 | — |
-| 17 | 2D vision style guide | 2D art | S | **Leta** | — | 16, 18a, 18b, 20 |
-| 18a | 2D vision animations — Viki's half | 2D art | M | **Viki** | 17 | 19 |
-| 18b | 2D vision animations — Leta's half | 2D art | M | **Leta** | 17 | 19 |
-| 19 | Swap placeholder → real vision player | Systems | S | **Viki** | 12, 18a, 18b | — |
-| 20 | Noir grade + post-processing | Rendering | M | **Leta** | 17 | 15 |
-| 21 | Scent visual effect | VFX | M | **Leta** | 20 | — |
-| 22 | Ambience + SFX | Audio | M | **Leta** | — | 23 |
-| 23 | Audio mixer + integration | Audio | S | **Leta** | 22 | — |
-| 24 | Level scripting: place markers, wire chain | Level | M | **Viki** | 1, 3, 13 | — |
-| 25 | Early test build + build pipeline | Tooling | S | **Viki** | — | — |
-| 26 | Milestone tracking / triage | Production | M | **Viki** | — | — |
+## M1 — the 15 September demo
 
-## Balance
+"Rough" below is deliberate and is not an excuse — it is the correct amount of
+work for this milestone.
 
-| | Tasks | Effort (S=1, M=2, L=3) |
-|---|---|---|
-| **Viki** (`vickussya`) | 14 | **30** |
-| **Leta** (`leatrix_`) | 13 | **28** |
+| # | Task | Size | Owner | M1 scope |
+|---|---|---|---|---|
+| 3 | Clue / case data model | M | **Leta** | Full. Everything reads it — build it properly once. **Blocks Viki.** |
+| 1 | Case skeleton | M | **Viki** | **Rough:** the truth + a 3-clue chain. Full Part 5 is M2. |
+| 17 | 2D vision style guide | S | **Leta** | Full. Cheap and gates all vision art. |
+| 13 | District layout | M | **Leta** | **Rough:** greybox. One street, one interior, one crime scene. |
+| 11 | Bunk model | M | **Leta** | **Rough:** silhouette and scale. Detail is M2. |
+| 12 | Bunk rig + breath animation | M | **Leta** | **Rough:** idle + the deep breath. The transition is built around it. |
+| 20 | Noir grade | M | **Leta** | **Rough pass.** Highest visual impact per hour on the board. |
+| 18a | 2D vision — Viki's half | M | **Viki** | **One vision each**, not the full set. |
+| 18b | 2D vision — Leta's half | M | **Leta** | Same. Agree format before either starts. |
+| 19 | Swap placeholder → real vision player | S | **Viki** | Full. The payoff for how Stage 2 was built. |
+| 4 | Clue gating | S | **Viki** | **Minimal:** 3 clues collected → ending fires. |
+| 24 | Level scripting | M | **Viki** | **Rough:** 3 markers placed and wired. |
+| 9 | Vision close / replay button | S | **Viki** | **Minimal:** close is enough. Replay if cheap. |
+| 10 | Title card + end card | S | **Viki** | **Minimal:** not a menu system. |
+| 22 | Footsteps + smell cue + ambience | M | **Leta** | **Minimal:** three sounds. Huge effect for the cost. |
+| 25 | Test build on another machine | S | **Viki** | **Do this in week one.** A demo that fails to launch is not a demo. |
+| 26 | Milestone tracking | M | **Viki** | Ongoing. |
 
-Viki owns systems, narrative and production. Leta owns the art pipeline — model,
-rig, texture, look, VFX, audio — plus the clue data model. Task 18 is split
-evenly by agreement.
+**M1 balance — Viki 8 tasks / 13 effort · Leta 7 tasks / 15 effort.**
+
+## M2 — the May bachelor project
+
+Everything above, finished, plus:
+
+| # | Task | Category | Size | Owner |
+|---|---|---|---|---|
+| 1+ | Full Part 5: complete clue chain + red herring | Design | M | **Viki** |
+| 2 | Part 4: characters + scent signatures | Design | M | **Viki** |
+| 5 | Client conversation → case start | Systems | M | **Viki** |
+| 6 | Dialogue system (bubbles + choices) | Systems | L | **Viki** |
+| 7 | Final confrontation | Systems | L | **Viki** |
+| 8 | Case file UI | UI | L | **Viki** |
+| 10+ | Full menu + results screen | UI | M | **Viki** |
+| 14 | Environment modular kit | 3D art | L | **Leta** |
+| 15 | Environment materials + textures | Textures | L | **Leta** |
+| 16 | Character textures | Textures | M | **Leta** |
+| 18+ | Remaining 2D visions | 2D art | L | **split evenly** |
+| 21 | Scent visual effect | VFX | M | **Leta** |
+| 23 | Audio mixer + integration | Audio | S | **Leta** |
+| 27 | Red herrings behaving as red herrings | Systems | M | **Viki** |
+| 28 | Smell stamina / over-smell | Systems | M | **Viki** |
+| 29 | Wolf-restraint meter | Systems | L | **Viki** |
+| 30 | Vision replay degradation | Systems | M | **Viki** |
+
+Tasks 27–30 are the concept's signature mechanics. `concept.md` Part 7 lists them
+as the first things to cut, so treat them as M2 stretch: in if the level is
+otherwise finished, out if it is not.
+
+## M3 — after the bachelor
+
+Antidote crafting · units economy · save/persistence · third-person and
+reflections · library and inventory tabs · clue-authoring editor tools ·
+performance pass · further levels.
 
 ## Where our work meets
 
@@ -78,22 +122,22 @@ Agree these **before** building either side, or one of us redoes work.
 
 | Interface | Provider | Consumer | Agree first |
 |---|---|---|---|
-| Clue data shape | Leta (3) | Viki (4, 8, 24) | Field names, how a clue is authored. **Viki is blocked until this lands.** |
+| Clue data shape | Leta (3) | Viki (4, 24, later 8) | Field names, how a clue is authored. **Viki is blocked until this lands.** |
 | Deep-breath animation | Leta (12) | Viki (19) | Trigger name + exact length in seconds |
-| 2D vision files | Both (18a/18b) | Viki (19) | One export format, resolution and length for both halves |
+| 2D vision files | Both (18a/18b) | Viki (19) | One export format, resolution and length |
 | District scene | Leta (13) | Viki (24) | **Scene ownership** — one of us in `SampleScene.unity` at a time |
 
-## What we cut if we run out of time
+## If M1 starts slipping
 
-In this order. `concept.md` Part 7 already names these as expendable, so cutting
-them is following the plan, not failing it.
+Cut in this order:
 
-1. Scent visual effect (21)
-2. Menus, down to a title card (10)
-3. Character textures, down to flat colours (16)
+1. **18a/18b down to one vision total** instead of one each
+2. **Vision replay button** (9) — close alone is enough
+3. **Ambience** (22) — keep footsteps and the smell cue, drop room tone
+4. **Bunk model and rig** (11, 12) — fall back to the capsule and cut the breath beat
 
-**Never cut 1 or 3** — everything downstream depends on them.
+Cutting 4 costs the most: framing Bunk mid-transition is the moment that sells the
+idea. Cut it last.
 
-Already deferred past the demo: red herrings, smell stamina, the wolf-restraint
-meter, the antidote, vision replay degradation, third-person and reflections,
-the units economy, save systems, the library/inventory tabs, editor tooling.
+**Never cut 3, 19 or 25.** The data model blocks everything, the real vision *is*
+the demo, and an unbuilt demo cannot be shown.
