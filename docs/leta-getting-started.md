@@ -120,6 +120,10 @@ what turn a small scene conflict into an unfixable one.
 Sizes: **S** ≈ half a day, **M** ≈ 1–3 days, **L** ≈ a week or more.
 Demo deadline is **15 September**.
 
+> **[tasks-leta.md](tasks-leta.md) has the step-by-step for every task below** —
+> what it is, how to do it, and how to know it is done. The table here is just
+> the running order. **[tasks.md](tasks.md)** shows what Viki is doing.
+
 Do them roughly in this order — the first three unblock other people.
 
 | # | Task | Size | Why this order |
