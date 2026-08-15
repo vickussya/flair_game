@@ -15,7 +15,7 @@ here, not a compromise. The fortnight after 1 Sep is buffer, not working time.
 
 | Due | Task | M1 scope |
 |---|---|---|
-| **Sat 16 Aug** | 25 Test build | Do it first |
+| **Sat 16 Aug** | 25 Test build | - Done. The build works.
 | **Wed 19 Aug** | 1 Case skeleton | Rough: truth + 3-clue chain only |
 | **Tue 26 Aug** | 18a Your vision | One vision, not the set |
 | **Wed 27 Aug** | 4 Clue gating | Minimal: 3 clues → ending |
