@@ -91,6 +91,8 @@ Is magic/tech soft or hard? (Can the player rely on consistent rules, or is it v
 PART 3.5 — GAME MAP (visual reference)
 The demo level, described so it can be greyboxed, drawn, or handed to an image generator.
 Anything marked [inferred] is not fixed by the rest of this document - change it freely.
+Pictures of everything below live in /reference/game_map/ (see /reference/README.md).
+Where an image and this section disagree, this section wins - it is the copy both of us edit.
 
 ONE-LINE SUMMARY
 Bismarkstrasse - a claustrophobic, rain-slick street canyon deep inside the buried domed
