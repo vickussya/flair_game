@@ -1,12 +1,6 @@
 FLAIR (Bunk Romero) - Preproduction Plan & Design Bible
 A fill-in template. Based on Emil Minchev's Нюх (Flair), Bunk Romero #1. Target: a single-level 3D detective demo with 2D "vision" cutscenes, built in Unity + C#.
 
-How to use this document
-Fill it top to bottom — the order is deliberate. Each part builds on the answers above it, and the technical part at the end only makes sense once the design above is locked. Three kinds of prompts:
-Fill in: → write your answer on the blank line.
-❓ Questions to answer → decisions you must make. If you can't answer one yet, mark it TBD and add it to the Decision Gate at the very end.
-▢ Checkbox → a yes/no or done/not-done decision.
-Golden rule: do not open Unity to build "the real thing" until Part 8 (Decision Gate) is mostly green. Prototyping/learning in Unity is fine anytime; committing to production is not.
 
 PART 0 — Project Frame
 Working title: Flair
@@ -21,10 +15,10 @@ Design / writing: Viki, Leta
 Programming (C#): Viki, Leta, Claude
 2D art / visions: Viki, Leta
 3D art / environment: Viki, Leta
-												Textures: Leta
-												3D environment: Viki
-												assests: Viki, Leta
-												Characters: Bunk (demo)
+Textures: Leta
+3D environment: Viki
+assests: Viki, Leta
+Characters: Bunk (demo)
 Audio: -
 Producer / keeps the plan moving: Viki
 goal of this demo - Bachelor project
@@ -38,20 +32,15 @@ Fill in 3–4 pillars.
 "A detective who solves crimes by smell." → Set in the original story of the book. 
 
 "Noir mood: black / white / red, gore with wit. Apocalytpic style" → Noir is the main style detective stories work with. The mix between noir and apocalyptic is
-									helps recreate the mood of the world built in the books. This mix represents the classic interesting detective storyline
-									blended with the destructive nature of our world. This constrast brings the idea of the unknown future whilst giving the comfort
-									of the well-known retro mystery mood. The gamer should feel both comforted and challenged/provoked. Red represents crime, fatallity,
-									danger and urgency. Black represents mystery, the unknown and uncertain. White represents justice, hope and uncovering the truth.
+helps recreate the mood of the world built in the books. This mix represents the classic interesting detective storyline
+blended with the destructive nature of our world. This constrast brings the idea of the unknown future whilst giving the comfort
+of the well-known retro mystery mood. The gamer should feel both comforted and challenged/provoked. Red represents crime, fatallity,
+danger and urgency. Black represents mystery, the unknown and uncertain. White represents justice, hope and uncovering the truth.
 
 "You investigate in 3D; you understand in 2D." → 2D cutscenes add more diversity to the design; support the noir mood and makes the game
-																										more enjoyable and multi-dimensional. The 2D scenes cover the reqiurement for animation.
-																										They will be replayable and will help the player to better understand the case and see the case
-																										through the detective's eyes (nose). This will help with the immersion into the story's world.
-																							
+more enjoyable and multi-dimensional. The 2D scenes cover the reqiurement for animation. They will be replayable and will help the player to better understand the case and see the case through the detective's eyes (nose). This will help with the immersion into the story's world.
 
 
-
-❓ Questions to answer:
 If you had to cut the game to one pillar, which survives?
 	- "A detective who solves crimes by smell." 
 
@@ -76,10 +65,9 @@ being used in later-game.
 - additional help - informators/tools
 
 
-❓ Questions to answer:
-Are you adapting a real case from the book (recommended: the opening case, "A Vial of Wind" — the witch's apothecary robbery) or writing an original case in the same world? - a real case from the book
+Are you adapting a real case from the book (recommended: the opening case, "A Vial of Wind" — the witch's apothecary robbery) or writing an original case in the same world? - a real case, but modified - the game must be interesting for people who have read the book and not predictable.
 
-How much can you change before a Flair reader feels it's "not Flair"? Where's your line? - change the hints, add red-herrings, motive mods
+How much can you change before a Flair reader feels it's "not Flair"? Where's your line? - change the hints, add red-herrings, motive mods, change culprits in some cases.
 
 Do you have rights / permission from the author or publisher, or is this a non-commercial fan/learning project? - we are planning to contact the author after the first level of the game is finished.
 
@@ -87,16 +75,15 @@ PART 3 — World Bible (the fiction)
 Write these so any team member can answer "what is this place like?" the same way.
 Setting — Unterstadt under the dome:
 Look & feel in one paragraph: retro, noir-style, apocalyptic, dangerous, mysterious, urgent
-What district is the demo set in? upto discussion
+What district is the demo set in? - Bismarkstrasse (where theh droggery is)
 What's on the streets? (signage, tech level, weather-under-a-dome, crowds - a city, the dome, semi-destroyed surroundings and futuristic elements
 
 The dying sun / black hole — does it affect gameplay or is it backdrop? - backdrop
 
 
-Mutants & prejudice — how is it shown in this level? (a slur, a refused entry, graffiti, a wary NPC?) - hybrid - storytelling and hints along the game
+Mutants & prejudice — how is it shown in this level? (a slur, a refused entry, graffiti, a wary NPC?) - hybrid - storytelling and hints along the game; slurs
 
 
-❓ Questions to answer:
 What are 3 concrete sensory details of Unterstadt a player will notice in 5 minutes? - visuals + sound, danger
 What does the dome mean day-to-day? (artificial light? recycled air? a visible seam in the sky?) - artificial light (like the world itself) - UNDERGROUND	
 Is magic/tech soft or hard? (Can the player rely on consistent rules, or is it vibes?) - hybrid
@@ -104,15 +91,15 @@ Is magic/tech soft or hard? (Can the player rely on consistent rules, or is it v
 PART 4 — Characters
 For each: name, role, what they want, what they're hiding, and their scent signature (this is a smell-detective game — everyone should have one).
 Bunk (Vincent) Romero — the player
-Personality / voice: __________________
-What restrains the wolf? (willpower / pills / ritual?) __________________
-What triggers the wolf? (blood? threat? a specific scent?) __________________
+Personality / voice: Bold, clever, physically strong, black sense of humor, attractive. Voice - deep, manly.
+What restrains the wolf? (willpower / pills / ritual?) - willpower (sometimes pills too)
+What triggers the wolf? (blood? threat? a specific scent?) - rabies, instinct of self-preservation (he transforms when hie life is in danger); memories of what he did ti his sister (killed her)
 The Client (in the book, a beautiful woman / witch who was robbed)
-Name / species: __________________
-What they want: __________________ | What they're hiding: __________________
-Scent signature: __________________
-The Informant (your concept calls her "Мади," radio bracelet — note: I couldn't verify a book character by that name, so treat as original unless you confirm it)
-Name / role: __________________ | How they contact Bunk: __________________
+Name / species: Barbara (witch)
+What they want: to find the robber and get back the expensive medicine to cure her client | What they're hiding: __________________
+Scent signature: fake eye, unlimited power, lust
+The Informant
+Name / role: Maddie (Bunk's daughter) | How they contact Bunk: through the orginiser bracelet
 The Culprit / final suspect
 Name / species: __________________
 Motive: __________________ | Method: __________________ | Mistake that exposes them: __________________
@@ -171,10 +158,10 @@ __________________ (why it looks relevant / why it isn't)
 
 
 ❓ Questions to answer:
-Can the case be solved by logic alone, or does it need a lucky guess? (It should be logic.)
-What's the minimum number of clues required to unlock the finale? (Your open question — decide it.)
-What happens on a wrong deduction? (Your concept says the investigation stalls / client re-meets — define exactly.)
-Is there one solution or branching? (For a demo: one solution, a few wrong paths, is plenty.)
+Can the case be solved by logic alone, or does it need a lucky guess? (It should be logic.) - logic
+What's the minimum number of clues required to unlock the finale? (Your open question — decide it.) - 3
+What happens on a wrong deduction? (Your concept says the investigation stalls / client re-meets — define exactly.) - Client lowers payment, client loses patience; user gains less units needed to finish the level and go to the next one.
+Is there one solution or branching? (For a demo: one solution, a few wrong paths, is plenty.) - a few
 
 PART 6 — Gameplay Systems (how everything works)
 For each system: a plain description, the decisions to make, and questions. This section becomes your programming spec.
