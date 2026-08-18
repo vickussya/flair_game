@@ -7,8 +7,9 @@ Nothing here is imported by Unity. That is the point of keeping it at the repo
 root: anything under `Assets/` gets a `.meta` file and is pulled into the asset
 database, which reference images have no business being in.
 
-The written counterpart is [docs/concept.md](../docs/concept.md) — Part 1 for the
-palette, Part 3 for the world, **Part 3.5 for the map**.
+The written counterpart is [docs/concept.md](../docs/concept.md) Part 1 for the
+palette, and [docs/world.md](../docs/world.md) for the world and **Part 3.5, the
+map**.
 
 ## Folders
 

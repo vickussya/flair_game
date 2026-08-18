@@ -13,14 +13,22 @@ Further levels come after that. See [docs/tasks.md](docs/tasks.md).
 
 ## Documentation
 
-**[docs/concept.md](docs/concept.md) is the canonical design document.** Pitch,
-pillars, world bible, gameplay systems, content list and the production ladder
-all live there. Read it before picking up a task.
+The design bible is split by subject. **[docs/concept.md](docs/concept.md) is the
+index** — start there; it says where everything lives.
 
-> **Rule: `docs/concept.md` is only ever edited on `dev`** — directly, or via a
-> short-lived PR. Never edit it on a personal branch. Two people editing a
-> 340-line design doc on separate branches produces drift and merge conflicts
-> that are tedious to untangle and easy to resolve wrongly.
+| File | What is in it |
+|---|---|
+| [docs/concept.md](docs/concept.md) | Pitch and design pillars, plus the index |
+| [docs/world.md](docs/world.md) | Source fidelity, the world, the map of the block |
+| [docs/case.md](docs/case.md) | The cast, and Level 1: "The Hollow Vial" |
+| [docs/systems.md](docs/systems.md) | Gameplay systems — the programming spec |
+| [docs/production.md](docs/production.md) | Content list, technical design, decision gate |
+| [docs/tasks.md](docs/tasks.md) | The live board: who builds what, by when |
+
+> **Rule: the design docs are only ever edited on `dev`** — directly, or via a
+> short-lived PR. Never on a personal branch. Two people editing the same design
+> doc on separate branches produces drift and merge conflicts that are tedious to
+> untangle and easy to resolve wrongly.
 
 [COLLABORATION.md](COLLABORATION.md) covers the Unity merge driver setup and the
 scene/prefab ownership convention.
@@ -50,10 +58,15 @@ merge into `main`.
 
 ## Current state
 
-Production ladder is in `docs/concept.md` Part 9.
+The live plan is [docs/tasks.md](docs/tasks.md).
 
 - ✅ **Stage 1 — Greybox / prototype.** First-person capsule, walk / look / jump.
 - ✅ **Stage 2 — Vertical slice.** Walk to a scent marker, hold to smell, camera
   leaves the eyes to frame Bunk, crosses into a placeholder 2D vision, returns
   control and logs a clue.
-- ⬜ **Stage 3 — Full case logic.** Blocked on Part 5 (the case itself).
+- ✅ **The case is written** — [docs/case.md](docs/case.md) Part 5, "The Hollow Vial".
+- ⬜ **Phase 1 — the walkable spine**, by 1 September: walk the block, smell three
+  clues, watch one real vision, see the clue count fill.
+
+We are building one finished level, done by **30 April**. 1 September is a
+progress checkpoint, not a separate deliverable.

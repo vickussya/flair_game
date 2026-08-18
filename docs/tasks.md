@@ -79,11 +79,13 @@ all Viki, which is the main scheduling risk on the board.
 
 | Due | # | Task | Size | Owner |
 |---|---|---|---|---|
-| Jan | 32 | Combat system — bodyguard fight and boss fight *(new)* | L | **Viki** |
+| Jan | 32 | Fight sequence — 2D vision playback, timed inputs, win/lose branch *(new)* | M | **Viki** |
 | Jan | 37 | The Penitent: model, rig, mask-tear reveal *(new)* | L | **Leta** |
 | Jan | 14 | Environment modular kit | L | **Leta** |
 | Feb | 7 | Final confrontation — accusation, then the fight | L | **Viki** |
-| Feb | 40 | Combat animations, Bunk and the Penitent *(new)* | M | **Leta** |
+| Feb | 40 | Draw the fight vision — Bunk vs the Penitent, the mask-tear *(new)* | M | **Leta** |
+| Feb | 42 | Physical verbs — door shoulder, lock break, collar grab: animations *(new)* | S | **Leta** |
+| Feb | 43 | Physical verbs — triggers and hookup *(new)* | S | **Viki** |
 | Feb | 15 | Environment materials + textures | L | **Leta** |
 | Feb | 27 | Red herrings behaving as red herrings — Borlow, Rook | M | **Viki** |
 | Mar | 18+ | Remaining 2D visions | L | **split evenly** |
@@ -111,8 +113,8 @@ Anything still under construction in April should have been cut in January.
 
 | | Tasks | Effort (S=1, M=2, L=3) |
 |---|---|---|
-| **Viki** | 18 | **39** |
-| **Leta** | 19 | **41** |
+| **Viki** | 19 | **39** |
+| **Leta** | 20 | **42** |
 
 Viki owns systems, narrative and production. Leta owns the art pipeline and the
 clue data model. Task 18 is split evenly by agreement.
@@ -125,16 +127,20 @@ clue data model. Task 18 is split evenly by agreement.
 | Deep-breath animation | Leta (12) | Viki (19) | Trigger name + exact length in seconds |
 | Hologram look | Leta (39) | Viki (33) | How a hologram reads and how the static wipe plays |
 | 2D vision files | Both (18) | Viki (19) | One export format, resolution and length |
-| Combat animations | Leta (40) | Viki (32) | Hit reactions, timings, what the mask-tear interrupts |
+| The fight vision | Leta (40) | Viki (32) | Where the timed inputs fall in the animation, and how the win and lose branches differ |
 | The block | Leta (13, 41) | Viki (24) | **Scene ownership** — one of us in the scene at a time |
 
 ## Risks
 
-**Combat is a whole new system with no precedent in this project.** Two fights,
-and neither of us is a programmer. It is task 32, sized L, and it is the item
-most likely to be wrong. If it slips, the finale becomes accusation-only and the
-fight is cut — the level still ends, and 5.6 still works, it just always resolves
-as "correct accusation, fight lost".
+**There is no 3D combat system, by decision** (see systems.md 6.8). The fight is a
+2D vision played through the pipeline that already works. That removed the
+biggest risk on this board — a whole new system neither of us knows how to build —
+without removing the fight, which is part of who Bunk is and which level 2's
+transformation needs to exist.
+
+**The deduction board (34) is now the largest unknown.** It is the piece with no
+precedent, it is what the case resolves through, and it is on the never-cut list.
+If it looks shaky in October, say so then rather than in February.
 
 **Phase 2 is Viki-heavy.** Six systems tasks in four months against Leta's art,
 which parallelises better. Watch it in October.
@@ -148,8 +154,9 @@ Cut in this order. Nothing here breaks the level.
 1. Scent visual effect (21)
 2. Menus, down to a title card (10)
 3. Vision replay controls (9) — keep close
-4. The bodyguard fight, keeping only the boss (part of 32)
-5. Combat entirely (32) — the finale becomes accusation-only
+4. Physical verbs (42, 43) — flavour, not structure
+5. The fight's timed inputs (part of 32) — the fight vision still plays, it just
+   resolves on evidence rather than reflexes
 
 **Never cut 3, 4, 24, 34 or the final build.** The data model, the gating, the
 clue placement and the deduction board are the game.
