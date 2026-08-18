@@ -55,6 +55,22 @@ advantage of the mutant powers - but the player will have to aquire/craft (maybe
 uncontrollable again. During investigation, the player will have to collect materials/ingredients for this antidote (some of the ingredients will requre the player to fo "illegal" for a detective things - f.e. to collect blood/hair from a victim - but
 this can cost the loss of the GAME - they player starts from scratch - level 1, no matter the progress.
 
+HOW OFTEN BUNK TRANSFORMS - decided
+Once. In the whole game. At the final level.
+The restraint above is therefore not a system that ships in Level 1 - it is a promise the game
+keeps making and refusing to pay out. What builds across the levels is the pressure: the photo of
+his sister in the inventory, the blood, the over-smelling, the near-misses. The meter can exist as
+narrative texture long before it ever resolves.
+Why hold it back: a transformation the player sees once, at the end, after a whole game of Bunk
+holding it down, is worth more than a mechanic they use every level. Held back, it is a payoff.
+Spent early, it is a cooldown.
+Consequences for the build:
+- Level 1 has no transformation. Bunk fights the Penitent in human form (see 6.8).
+- No wolf meter, no antidote crafting and no tame/untame states are needed for Level 1.
+- The final level gets one transformation and one transformed fight, both as 2D visions.
+- The antidote, the ingredient gathering and the "start from scratch" penalty above are ideas for
+  the space between here and there. None are scheduled.
+
 6.8 Final confrontation
 Your concept: face the likely culprit; may be a duel OR helping catch them.
 Which is it for the demo? - hybrid; depends on the case. Bunk is strong enough to face a criminal who refuses to face the consequenses of their actions.
@@ -71,8 +87,9 @@ Why, and this is not a compromise:
 - Hand-drawn black-white-red violence carries the book's body-horror-and-wit tone far better
   than two low-poly models colliding would.
 - It costs one animation instead of a whole system, and the pipeline is already built and tested.
-- It scales. Level 2's transformation fight is the same pipeline, and 2D lets it be as violent
-  as the book without anyone building a gore system.
+- It scales. The final level's one transformation fight is the same pipeline, and 2D lets it be
+  as violent as the book without anyone building a gore system. That fight is the single most
+  important image in the whole game, and drawing it beats simulating it.
 The fight still has an outcome: one or two timed inputs during the sequence, or a single
 decisive choice that only reads correctly if the player learned the Penitent's tell. Win and
 lose both stay real, so the endings in 5.6 are unchanged.

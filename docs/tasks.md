@@ -163,6 +163,10 @@ clue placement and the deduction board are the game.
 
 ## Not in this level
 
-Werewolf transformation and the wolf-restraint meter (6.7) — moved to level 2 by
-decision. Smell stamina, vision replay degradation, the antidote, save systems,
-the library tabs, editor tooling, further levels.
+Werewolf transformation and the wolf-restraint meter (6.7). By decision the game
+contains exactly **one** transformation, at the **final level** — so no meter, no
+antidote and no tame/untame states are needed here or in level 2. Level 1's
+finale is a human-form fight.
+
+Also out: smell stamina, vision replay degradation, save systems, the library
+tabs, editor tooling, further levels.

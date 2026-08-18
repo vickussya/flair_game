@@ -113,8 +113,9 @@ The level is won by naming the culprit. The fight decides what winning costs.
 - Wrong accusation: not an ending. The board is checked as a whole (6.10) and rejected. It costs
   time and Barbara's patience and lowers the fee, and the player goes back to the case.
 - Midnight reached with no correct accusation: the boy dies, Barbara pays nothing, minimum units.
-Bunk fights the Penitent in human form. The werewolf transformation is deliberately NOT in this
-level - see 6.7; it is developed in level 2.
+Bunk fights the Penitent in human form. There is no transformation here: the game contains exactly
+one, at the final level, and holding it back is the point (see 6.7). Level 1 is Bunk winning a
+fight he could have won far more easily as a wolf, and choosing not to.
 The fight plays as a 2D vision, not as 3D combat - see 6.8. It is still a fight, it still has a
 winner, and it is still the level's climax; it is drawn rather than simulated.
 Bunk never dies. Losing the fight costs units, not his life - the units carry into later levels, so
