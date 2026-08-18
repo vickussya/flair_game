@@ -6,41 +6,45 @@ branch rules: **[leta-getting-started.md](leta-getting-started.md)**.
 
 Branch: **`leatrix_`**. Tick your own boxes here; nobody else edits this file.
 
-## Which of these are due when
+## What we are building
 
-Two separate deliverables — see [tasks.md](tasks.md).
+**One finished level, done by 30 April.** Not a rough demo replaced later — the
+real thing, built once, to final quality. **1 September is a progress checkpoint**,
+not a separate deliverable: we show the teachers what exists, it has to run, and
+nothing gets built twice to make that date. Full phasing in [tasks.md](tasks.md).
 
-**M1 — the rough demo. Finish by 1 September**, hard deadline the 15th. Playable
-proof for the teachers, not a finished thing. **Rough is the correct amount of
-work here, not a compromise** — a rough model under a good grade beats a
-beautiful one with no grade. The fortnight after 1 Sep is buffer, not working time.
+The case is now written — [concept.md](concept.md) Part 5, "The Hollow Vial".
+Read it before the greybox; it decides what buildings have to exist.
 
-| Due | Task | M1 scope |
-|---|---|---|
-| **Mon 17 Aug** | 17 Style guide | Full — it gates all vision art |
-| **Wed 19 Aug** | 3 Clue data model | Full — **Viki is blocked until this lands** |
-| **Sun 23 Aug** | 13 District layout | Greybox only, no art |
-| **Sun 23 Aug** | 20 Noir grade | Rough pass |
-| **Tue 26 Aug** | 11 Bunk model | Rough: silhouette + scale |
-| **Tue 26 Aug** | 18b Your vision | One vision, not the set |
-| **Fri 28 Aug** | 12 Rig + breath | Rough: idle + breath. **Send Viki the clip length.** |
-| **Sat 30 Aug** | 22 Sound | Three sounds: footsteps, smell cue, ambience |
-| **Mon 1 Sep** | Demo integrated and built | — |
+**Phase 1, by 1 Sep** — walk the block, smell three clues, watch one real vision,
+see the clue count fill.
 
-**Your first two tasks are the whole schedule's bottleneck.** Task 17 gates every
-piece of vision art either of you draws, and task 3 blocks Viki from starting his
-systems work at all. They are not the interesting tasks, and they are the ones
-that must not slip.
+| Due | Task |
+|---|---|
+| **Wed 19 Aug** | 3 Clue data model — **Viki is blocked until this lands** |
+| **Thu 21 Aug** | 17 2D vision style guide |
+| **Sun 24 Aug** | 13 Block greybox — street, plaza, alley, droggery, church, Doctor's, office |
+| **Wed 27 Aug** | 20 Noir grade, first pass |
+| **Sat 30 Aug** | 18b One 2D vision, drawn with Viki |
+| **Mon 1 Sep** | Checkpoint: build it, run it elsewhere |
 
-**M2 — the bachelor project, May.** The finished level. Everything above gets
-completed rather than replaced, plus: **14**, **15**, **16**, **21**, **23** and
-the remaining visions.
+**Your first two tasks are the whole schedule's bottleneck.** Task 3 blocks four
+of Viki's tasks, and task 17 gates every piece of vision art either of you draws.
+Neither is the interesting work, and both are the ones that must not slip.
 
-The task descriptions below are written to the **finished** M2 standard. For M1,
-do the rough version the board specifies and come back to it.
+**Phase 2, Sep–Dec** — 39 hologram look · 41 interiors · 11 Bunk model ·
+12 rig + animations
 
-**Start with 3 and 17.** Neither is the interesting work, but task 3 blocks Viki
-completely and task 17 gates every piece of vision art either of us draws.
+**Phase 3, Jan–Mar** — 37 the Penitent · 14 modular kit · 40 combat animations ·
+15 materials + textures · 18+ remaining visions · 38 Barbara · 16 character
+textures · 31 UI visual design · 21 scent VFX · 22 audio · 23 mixer
+
+**Phase 4, April** — integration and polish. Not building.
+
+Note task 13 grew: the case puts the **church directly opposite the droggery**,
+plus the Doctor's house and Bunk's office, all on the one block. Four new tasks
+came out of the case — **37** the Penitent, **38** Barbara, **39** hologram look,
+**40** combat animations. Ask me for step-by-step on any of them.
 
 ---
 

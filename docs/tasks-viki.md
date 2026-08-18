@@ -5,41 +5,42 @@ Overview of both our workloads: **[tasks.md](tasks.md)**.
 
 Branch: **`vickussya`**. Tick your own boxes here; nobody else edits this file.
 
-## Which of these are due when
+## What we are building
 
-Two separate deliverables — see [tasks.md](tasks.md).
+**One finished level, done by 30 April.** Not a rough demo replaced later — the
+real thing, built once. **1 September is a progress checkpoint**, not a separate
+deliverable: we show the teachers what exists, it has to run, and nothing gets
+built twice to make that date. Full phasing in [tasks.md](tasks.md).
 
-**M1 — the rough demo. Finish by 1 September**, hard deadline the 15th. Playable
-proof for the teachers, not a finished thing. Rough is the correct amount of work
-here, not a compromise. The fortnight after 1 Sep is buffer, not working time.
+**Done:** ✅ 25 test build · ✅ 1 Part 5, "The Hollow Vial"
 
-| Due | Task | M1 scope |
-|---|---|---|
-| **Sat 16 Aug** | 25 Test build | - Done. The build works.
-| **Wed 19 Aug** | 1 Case skeleton | Rough: truth + 3-clue chain only |
-| **Tue 26 Aug** | 18a Your vision | One vision, not the set |
-| **Wed 27 Aug** | 4 Clue gating | Minimal: 3 clues → ending |
-| **Fri 28 Aug** | 24 Level scripting | Rough: 3 markers wired |
-| **Sat 30 Aug** | 19 Real vision player | Full |
-| **Sun 31 Aug** | 9 Vision close button | Close is enough |
-| **Sun 31 Aug** | 10 Title + end card | Not a menu system |
-| **Mon 1 Sep** | Demo integrated and built | — |
-| ongoing | 26 Milestone tracking | Weekly check |
+**Phase 1, by 1 Sep** — walk the block, smell three clues, watch one real vision,
+see the clue count fill.
 
-You are blocked on Leta twice: task 3 (due 19 Aug) gates your 4 and 24, and task
-12 (due 28 Aug) gates your 19. If either slips, say so early rather than waiting.
+| Due | Task |
+|---|---|
+| **Sun 24 Aug** | 4 Clue gating — 3 clues unlock the finale |
+| **Wed 27 Aug** | 24 Level scripting — place and wire clues 1, 2, 3 |
+| **Sat 30 Aug** | 18a One 2D vision, drawn with Leta |
+| **Sun 31 Aug** | 19 Swap placeholder → real vision player |
+| **Mon 1 Sep** | Checkpoint: build it, run it elsewhere |
 
-**M2 — the bachelor project, May.** The finished level. Everything above gets
-completed rather than replaced, plus: **2**, **6**, **5**, **7**, **8**, the full
-Part 5, full menus, and the stretch mechanics (red herrings, smell stamina, wolf
-meter, replay degradation).
+**Phase 2, Sep–Dec** — 33 hologram scene · 6 dialogue system · 34 deduction board
+· 2 dialogue script · 5 client conversation · 35 midnight clock · 36 units economy
+· 8 case file UI
 
-The task descriptions below are written to the **finished** M2 standard. For M1,
-do the rough version the board specifies and come back.
+**Phase 3, Jan–Mar** — 32 combat · 7 final confrontation · 27 red herrings ·
+18+ remaining visions · 9 vision controls · 10 menus
 
-**Start with 25.** A build that fails on someone else's machine is the one
-failure mode that turns the demo into nothing, and it costs half a day to rule
-out now instead of on 14 September.
+**Phase 4, April** — integration, bug fixing, final build. Not building.
+
+Five of your tasks are new and came out of the case: **32** combat, **33**
+hologram scene, **34** deduction board, **35** clock, **36** units. Only 32 and
+34 have no precedent in the project — the rest build on what already runs. Ask me
+for step-by-step on any of them and I will write it up.
+
+You are blocked on Leta twice: task 3 (due today) gates your 4, 24, 8 and 34, and
+task 12 gates your 19. If either slips, say so early rather than waiting.
 
 ---
 

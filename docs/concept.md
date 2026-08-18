@@ -334,7 +334,7 @@ kills a human, so whatever carried it out was not one. The widow Lenz is the onl
 never a person - and she is the only one Bunk dismissed in the first five minutes.
 
 5.6 — Endings and the finale
-The level is won by naming the culprit. The fight decides what winning costs. [proposed - confirm]
+The level is won by naming the culprit. The fight decides what winning costs.
 - Correct accusation, fight won: the Black Wind is cut out of the Penitent in time, the boy lives,
   Barbara pays the full 10,000, maximum units carried into the next level.
 - Correct accusation, fight lost: the case is solved and the level completes, but midnight passes
@@ -345,6 +345,13 @@ The level is won by naming the culprit. The fight decides what winning costs. [p
 - Midnight reached with no correct accusation: the boy dies, Barbara pays nothing, minimum units.
 Bunk fights the Penitent in human form. The werewolf transformation is deliberately NOT in this
 level - see 6.7; it is developed in level 2.
+Bunk never dies. Losing the fight costs units, not his life - the units carry into later levels, so
+a loss here is felt in the bigger project rather than as a game over.
+The fight can be retried, but the clock keeps running while you retry, so enough failed attempts
+cost the boy anyway.
+Midnight advances per player action, not in real time. A real clock punishes thinking, and thinking
+is the thing this game wants the player doing. Investigating, travelling and accusing spend time;
+standing still and reading the board does not.
 
 
 ❓ Questions to answer:
