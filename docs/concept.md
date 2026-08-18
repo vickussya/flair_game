@@ -363,6 +363,18 @@ help him in the next level - more informators; richer inventory etc.
 How does the player know they're making progress? (case file filling up? clue counter?) - there will be case file in which the player fills up the "data" - something like a puzzle
 How are wrong choices communicated without frustrating? - after a few wrong choices the client comes back to bunk and gives hints (could be information, could be a 2D vision that the player has missed)
 
+6.10 Bunk's Mind Inventory — the deduction board (NEW)
+Lives in the "mind" category of the case library/inventory (6.4). This is how a case actually gets solved, and it's the mechanism behind the deduction half of the finale (6.8).
+How it works: at the start of a case, the client's opening briefing/backstory is logged in a separate case window, not the mind inventory itself. Opening the mind inventory shows a running list of questions Bunk asks himself about the case.
+Some questions already carry an answer — authored backstory/experience Bunk already has. These read to the player as leads, not things to solve.
+The first question, on every case with no exception, is "What is the client hiding from me?" — always present, never pre-answered.
+As the player finds hints while investigating (smell/look/dialogue — 6.3/6.4/6.6), they attach each hint to whichever question they believe it answers. Attaching is free and ongoing through the whole case — nothing is checked question by question.
+The board is checked as a whole at final submission: this is the "present evidence" moment of the final confrontation (6.8). Every question matched to its correct hint wins the case. Any wrong pairing triggers 6.8's existing finale-fail outcome (case solved, no justice for the client, fewer units carried forward) — harder than the ongoing, softer wrong-deduction penalty in 5. (payment/patience loss), which covers missteps made earlier in the investigation, not the final submission.
+❓ Questions to answer:
+Can one hint answer more than one question, or is it strictly one hint → one question?
+Must every question have a hint attached before the player can submit, or can they submit with gaps?
+Are Bunk's own pre-answered questions visible from the start of the case, or do they unlock as related clues are found?
+
 PART 7 — Content List for the Demo (what must actually exist)
 The "how much are we really building" reality check. Fill in real counts.
 Scenes needed:
