@@ -61,8 +61,8 @@ For an object-hint, red could color the object itself, or, in some instances, ar
 
 ## Shared with Viki
 
-- [ ] Test frames shown to Viki
-- [ ] Viki agrees the format/palette/line weight before drawing 18a
+- [x] Test frames shown to Viki
+- [x] Viki agrees the format/palette/line weight before drawing 18a
 
 **Done when:** two people could draw a frame each and they would look like the
 same game.
