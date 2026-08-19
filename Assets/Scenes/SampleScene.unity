@@ -328,11 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc07e51447961a84f8acd720b69529de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentMarker
-  clueId: clue_01
-  displayName: Cordite and wet wool
-  isTrueScent: 1
+  clue: {fileID: 11400000, guid: e39f8469a9524cd4cbe34d07e985ec13, type: 2}
   smellRadius: 2.5
-  visionDuration: 3
 --- !u!23 &305808528
 MeshRenderer:
   m_ObjectHideFlags: 0
