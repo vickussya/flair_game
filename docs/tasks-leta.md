@@ -71,7 +71,7 @@ code changes, and a `ScentMarker` can be pointed at it.
 
 ---
 
-## ⬜ 17. 2D vision style guide (S)
+## ✅ 17. 2D vision style guide (S)
 
 **Blocks tasks 16, 18a, 18b and 20.** Small but it gates a lot — do it early.
 
