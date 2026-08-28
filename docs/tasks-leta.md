@@ -44,7 +44,7 @@ completely and task 17 gates every piece of vision art either of us draws.
 
 ---
 
-## ⬜ 3. Clue / case data model (M)
+## ✅ 3. Clue / case data model (M)
 
 **Do this first. Viki is blocked on it** — his gating, case file UI and level
 scripting all read whatever shape you define.
@@ -89,7 +89,7 @@ same game.
 
 ---
 
-## ⬜ 13. Demo district layout (M)
+## ✅ 13. Demo district layout (M)
 
 **Blocks tasks 14 and 24.** Greybox only — shapes, no art.
 
