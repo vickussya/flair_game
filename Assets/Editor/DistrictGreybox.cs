@@ -22,11 +22,15 @@ namespace Flair.EditorTools
     /// Axes: +x is east, +z is north, y is up. The street runs south to north,
     /// office at the south end, droggery at the north.
     ///
-    /// DEVIATES FROM Part 3.5 in two ways, both from walking the first pass:
-    /// the street, alley and plaza are all wider than "claustrophobic" wanted,
-    /// and there is now a four-way crossroads in the lower street feeding a
-    /// second north-south street. Part 3.5 still says "a loop with one spur"
-    /// and needs updating on dev to match.
+    /// Connectivity is Part 3.5's: a loop with one spur. Office - Street -
+    /// Plaza - Droggery front, the alley as a parallel back route from the
+    /// plaza to the droggery rear, and the arch as a decorative dead end. A
+    /// crossroads and a second north-south street were tried and taken back
+    /// out; the loop is the shape the level wants.
+    ///
+    /// DEVIATES FROM Part 3.5 on width only. The first pass was built to the
+    /// letter -- 8m streets, a 20x18 plaza, a 3m alley -- and walked as
+    /// claustrophobic in the bad sense, so everything is wider here.
     /// </summary>
     public static class DistrictGreybox
     {
@@ -36,44 +40,57 @@ namespace Flair.EditorTools
         // ---------------------------------------------------------------
         // The layout, in metres.
         //
-        //                        droggery          z 90..102
-        //                        stoop             z 86..90
-        //                        upper street      z 62..86
-        //   west street  <->     PLAZA             z 38..62   <-> blocked arch
-        //        |               lower street      z 32..38
-        //        +-------------  CROSSROADS  ------------+    z 20..32
-        //                        lower street      z -1..20
-        //                        office            z -8..-1
+        //           rear yard  ..  droggery         z 92..102
+        //             |            stoop            z 86..90
+        //        leg B |           upper street     z 62..86
+        //      dogleg -+                            z 72..77
+        //        leg A |                            z 59..72
+        //       mouth  +-------->  PLAZA            z 38..62  <-> blocked arch
+        //                          lower street     z -1..38
+        //                          office           z -8..-1
         // ---------------------------------------------------------------
 
         private const float StreetW = 6f;      // main street runs x -6..6
         private const float PlazaW = 15f;      // plaza widens to x -15..15
         private const float MassH = 18f;       // buildings: 5-6 storeys at ~3m
-        private const float DomeY = 40f;       // dome ceiling ~40m up
+        // Set false to take the lid off entirely and leave open space above the
+        // rooftops. The level stays sealed either way -- the buildings do that,
+        // not the ceiling.
+        private const bool Ceiling = true;
+
+        // Part 3.5 says the dome is "~40m up" AND that the buildings are
+        // "capped by the dome ceiling hanging low overhead". With 18m buildings
+        // those cannot both hold -- 40m leaves a 22m void above the rooftops
+        // and the street stops feeling lidded. Going with "capped": 26m puts it
+        // 8m over the roofs, close enough to read as a ceiling. Set it back to
+        // 40 here if you want the void.
+        private const float DomeY = 26f;
 
         // South-to-north landmarks, as z coordinates.
-        private const float OfficeZ0 = -8f;    // back of the office recess
+        private const float OfficeZ0 = -9f;    // back of the office recess
         private const float OfficeZ1 = -1f;    // office doorway meets the street
-        private const float CrossZ0 = 20f;     // crossroads, south edge
-        private const float CrossZ1 = 32f;     // crossroads, north edge
         private const float StreetZ1 = 38f;    // lower street ends at the plaza
         private const float PlazaZ1 = 62f;     // plaza ends, upper street begins
-        private const float UpperZ1 = 86f;     // upper street ends at the stoop
-        private const float StoopZ1 = 90f;     // stoop ends, droggery front wall
-        private const float DrogZ1 = 102f;     // back of the droggery
+        private const float UpperZ1 = 90f;     // upper street ends at the stoop
+        private const float StoopZ1 = 94f;     // stoop ends, droggery front wall
+        private const float DrogZ1 = 106f;     // back of the droggery
 
         // Building rows sit 12m apart either side of the main street.
         private const float RowW = -18f, RowE = 18f;
 
-        // The second, western street: x -26..-21 up to the dogleg, then it jogs
-        // east and runs x -23..-18 to the droggery's back yard.
-        private const float WestStX0 = -26f, WestStX1 = -21f;
-        private const float DogZ0 = 70f, DogZ1 = 75f;
-        private const float NorthLegX0 = -23f, NorthLegX1 = -18f;
+        // The service alley, 5m wide: west off the plaza, north up leg A, a
+        // sharp dogleg west, then leg B to the droggery's back yard. Legs A and
+        // B do not overlap in x at all -- a true right-angle corner, which is
+        // what makes it properly blind.
+        private const float MouthZ0 = 54f, MouthZ1 = 59f;
+        private const float LegAX0 = -23f, LegAX1 = -18f;
+        private const float DogZ0 = 72f, DogZ1 = 77f;
+        private const float LegBX0 = -28f, LegBX1 = -23f;
+        private const float YardZ0 = 96f, YardZ1 = 102f;
 
-        // Ground / dome extents, wide enough to cover both streets and the arch.
+        // Ground / dome extents, wide enough to cover the alley and the arch.
         private const float GroundX0 = -33f, GroundX1 = 29f;
-        private const float GroundZ0 = -9f, GroundZ1 = 107f;
+        private const float GroundZ0 = -9f, GroundZ1 = 111f;
 
         private static Transform root;
         private static Material groundMat, massMat, propMat;
@@ -102,11 +119,10 @@ namespace Flair.EditorTools
             BuildShell();
             BuildOffice();
             BuildLowerStreet();
-            BuildCrossroads();
             BuildPlaza();
             BuildBlockedArch();
             BuildUpperStreet();
-            BuildWestStreet();
+            BuildServiceAlley();
             BuildDroggery();
             BuildScentAnchors();
 
@@ -149,109 +165,119 @@ namespace Flair.EditorTools
         {
             var g = Group("Shell");
 
-            Block("Ground", g, GroundX0, GroundX1, GroundZ0, GroundZ1, -1f, 0f, groundMat);
+            // Two ground slabs, not one. The office doorway sits below street
+            // level, and a single slab cannot be dug into -- so the street
+            // surface stops at the doorway and a lower slab carries on south.
+            // Their top faces are at different heights, which is the point:
+            // anything coplanar with the ground z-fights with it.
+            Block("Ground", g, GroundX0, GroundX1, OfficeZ1, GroundZ1, -1f, 0f, groundMat);
+            Block("Ground_OfficeWell", g, GroundX0, GroundX1, GroundZ0, OfficeZ1,
+                  -1.45f, -0.45f, groundMat);
 
-            // The map has a roof and you can see it (Part 3.5).
+            // The map has a roof and you can see it (Part 3.5). Set Ceiling to
+            // false for open sky above the rooftops instead -- the level is
+            // sealed by the buildings either way, so nothing else depends on it.
+            if (!Ceiling) return;
+
             Block("DomeCeiling", g, GroundX0, GroundX1, GroundZ0, GroundZ1, DomeY, DomeY + 2f);
 
-            // Ribs, so the ceiling reads as structure rather than a lid.
+            // Ribs, so the ceiling reads as structure rather than a flat lid.
+            // Inset and sunk into the slab so no face of theirs lands in the
+            // same plane as one of its faces.
             for (float z = GroundZ0 + 6f; z < GroundZ1; z += 12f)
             {
-                Block("DomeRib", g, GroundX0, GroundX1, z, z + 1.2f, DomeY - 1.2f, DomeY);
+                Block("DomeRib", g, GroundX0 + 0.5f, GroundX1 - 0.5f, z, z + 1.2f,
+                      DomeY - 1.2f, DomeY + 0.5f);
             }
         }
 
         /// <summary>
-        /// South end: a narrow doorway under a dead neon sign, three steps down
-        /// to street level. The start point, and the map's southern pinch.
+        /// South end: a doorway under a dead neon sign, three steps down to
+        /// street level. The start point.
+        ///
+        /// The recess runs the full width of the street, so the south end does
+        /// not narrow. Part 3.5 asks for a block "pinched at both ends" and a
+        /// half-width recess delivers that, but it was tried and walked worse:
+        /// the street reads better opening straight out of the doorway.
         /// </summary>
         private static void BuildOffice()
         {
             var g = Group("South - Bunks Office");
 
-            // The recess is only 6m wide where the street is 12 -- Part 3.5
-            // wants the block pinched at both ends.
-            Block("OfficeBlock_W", g, RowW, -3f, OfficeZ0, OfficeZ1, 0f, MassH);
-            Block("OfficeBlock_E", g, 3f, RowE, OfficeZ0, OfficeZ1, 0f, MassH);
-            Block("OfficeBlock_Back", g, -3f, 3f, OfficeZ0, OfficeZ0 + 4f, 0f, MassH);
-            Block("OfficeLintel", g, -3f, 3f, OfficeZ0 + 4f, OfficeZ1, 4f, MassH);
+            // Sit exactly on the well floor: overlapping it instead would put
+            // two same-facing surfaces in one plane at the foot of the wall.
+            Block("OfficeBlock_W", g, RowW, -StreetW, OfficeZ0, OfficeZ1, -0.45f, MassH);
+            Block("OfficeBlock_E", g, StreetW, RowE, OfficeZ0, OfficeZ1, -0.45f, MassH);
+            Block("OfficeBlock_Back", g, -StreetW, StreetW, OfficeZ0, OfficeZ0 + 4f, -0.45f, MassH);
+            Block("OfficeLintel", g, -StreetW, StreetW, OfficeZ0 + 4f, OfficeZ1, 4f, MassH);
 
-            // Three steps DOWN: the door sits below street level. Each rise is
-            // 0.15, well inside the CharacterController's 0.3 step offset.
-            for (int i = 0; i < 3; i++)
+            // Two treads bridging street level (0) down to the well floor
+            // (-0.45): three 0.15 rises in all, well inside the
+            // CharacterController's 0.3 step offset. Each tread sits ON the
+            // well floor and stops short of the surface above it, so no two
+            // faces end up coplanar.
+            for (int i = 0; i < 2; i++)
             {
-                float y = -0.15f * (i + 1);
+                float top = -0.15f * (i + 1);
                 float z = OfficeZ1 - (i + 1);
-                Block($"OfficeStep_{i + 1}", g, -2.5f, 2.5f, z, z + 1f, y, 0f, propMat);
+                Block($"OfficeStep_{i + 1}", g, -5f, 5f, z, z + 1f, -0.45f, top, propMat);
             }
 
-            Block("DeadNeonSign", g, -1.8f, 1.8f, OfficeZ1 - 0.4f, OfficeZ1, 4.2f, 5.4f, propMat);
-            Block("LitWindow", g, -1.2f, 1.2f, OfficeZ1 - 0.3f, OfficeZ1, 6.5f, 8.5f, propMat);
+            // Both stand proud of the facade rather than flush with it. Flush
+            // means their front faces share a plane with the wall's, and the
+            // two flicker against each other -- which is what you see from the
+            // spawn point, since this is the first thing you look at.
+            Block("DeadNeonSign", g, -2.4f, 2.4f, OfficeZ1 - 0.15f, OfficeZ1 + 0.25f, 4.2f, 5.4f, propMat);
+            Block("LitWindow", g, -1.6f, 1.6f, OfficeZ1 - 0.15f, OfficeZ1 + 0.15f, 6.5f, 8.5f, propMat);
         }
 
         /// <summary>
         /// Lower street: cracked asphalt, tram rails ending in rubble,
-        /// burnt-out chassis shoved against the kerb. Split by the crossroads.
+        /// burnt-out chassis shoved against the kerb. One unbroken run from the
+        /// office to the plaza.
         /// </summary>
         private static void BuildLowerStreet()
         {
             var g = Group("Lower Street");
 
-            Block("Row_W_S", g, RowW, -StreetW, OfficeZ1, CrossZ0, 0f, MassH);
-            Block("Row_E_S", g, StreetW, RowE, OfficeZ1, CrossZ0, 0f, MassH);
-            Block("Row_W_N", g, RowW, -StreetW, CrossZ1, StreetZ1, 0f, MassH);
-            Block("Row_E_N", g, StreetW, RowE, CrossZ1, StreetZ1, 0f, MassH);
+            Block("Row_W", g, RowW, -StreetW, OfficeZ1, StreetZ1, 0f, MassH);
+            Block("Row_E", g, StreetW, RowE, OfficeZ1, StreetZ1, 0f, MassH);
 
-            Block("Kerb_W", g, -StreetW, -StreetW + 0.4f, OfficeZ1, CrossZ0, 0f, 0.25f, propMat);
-            Block("Kerb_E", g, StreetW - 0.4f, StreetW, OfficeZ1, CrossZ0, 0f, 0.25f, propMat);
+            // Solid fill out to the map edge behind both rows.
+            Block("Fill_W", g, GroundX0, RowW, GroundZ0, StreetZ1, 0f, MassH);
+            Block("Fill_E", g, RowE, GroundX1, GroundZ0, StreetZ1, 0f, MassH);
+
+            Block("Kerb_W", g, -StreetW, -StreetW + 0.4f, OfficeZ1, StreetZ1, 0f, 0.25f, propMat);
+            Block("Kerb_E", g, StreetW - 0.4f, StreetW, OfficeZ1, StreetZ1, 0f, 0.25f, propMat);
 
             // Rusted tram rails, ending in rubble rather than going anywhere.
-            Block("TramRail_W", g, -2.4f, -2.1f, 2f, 17f, 0f, 0.15f, propMat);
-            Block("TramRail_E", g, 2.1f, 2.4f, 2f, 17f, 0f, 0.15f, propMat);
-            Rubble("RailRubble", g, new Vector3(0f, 0f, 18f), 4, 2.4f);
+            Block("TramRail_W", g, -2.4f, -2.1f, 2f, 24f, 0f, 0.15f, propMat);
+            Block("TramRail_E", g, 2.1f, 2.4f, 2f, 24f, 0f, 0.15f, propMat);
+            Rubble("RailRubble", g, new Vector3(0f, 0f, 25f), 4, 2.4f);
 
             // Barricades against the kerbs. They break the sightline north so
             // the plaza is not visible from the office door (6.1 wants exploring).
-            Block("Chassis_W", g, -5.6f, -2.8f, 8f, 12.5f, 0f, 1.5f, propMat);
-            Block("Chassis_E", g, 2.8f, 5.6f, 33f, 37.5f, 0f, 1.4f, propMat);
+            Block("Chassis_W", g, -5.6f, -2.8f, 10f, 14.5f, 0f, 1.5f, propMat);
+            Block("Chassis_E", g, 2.8f, 5.6f, 30f, 34.5f, 0f, 1.4f, propMat);
 
             // Pipework vented at ankle height, cable bundles swagged overhead.
-            Block("Pipes_W", g, -StreetW, -StreetW + 0.5f, 4f, 18f, 0.4f, 0.9f, propMat);
-            Block("Cables_Overhead", g, -StreetW, StreetW, 14f, 14.6f, 7f, 7.4f, propMat);
+            Block("Pipes_W", g, -StreetW, -StreetW + 0.5f, 4f, 22f, 0.4f, 0.9f, propMat);
+            Block("Cables_Overhead", g, -StreetW, StreetW, 18f, 18.6f, 7f, 7.4f, propMat);
+            Block("StreetPlate", g, -StreetW, -StreetW + 0.4f, 30f, 31.6f, 3.4f, 4.6f, propMat);
         }
 
         /// <summary>
-        /// The four-way crossroads. West arm runs into the second north-south
-        /// street; east arm is a short service spur sealed at the far end.
-        /// </summary>
-        private static void BuildCrossroads()
-        {
-            var g = Group("Crossroads");
-
-            // South and north sides of both arms.
-            Block("CrossWall_SW", g, GroundX0 + 7f, RowW, GroundZ0, CrossZ0, 0f, MassH);
-            Block("CrossWall_NW", g, WestStX1, RowW, CrossZ1, StreetZ1, 0f, MassH);
-            Block("CrossWall_SE", g, RowE, GroundX1, GroundZ0, CrossZ0, 0f, MassH);
-            Block("CrossWall_NE", g, RowE, GroundX1, CrossZ1, StreetZ1, 0f, MassH);
-
-            // East arm dead-ends at a sealed service gate.
-            Block("EastArm_End", g, 22f, GroundX1, CrossZ0, CrossZ1, 0f, MassH);
-            Rubble("EastArmRubble", g, new Vector3(20.5f, 0f, 26f), 6, 5f);
-
-            Block("StreetPlate", g, -0.4f, 0.4f, CrossZ1 - 0.5f, CrossZ1, 3.4f, 4.6f, propMat);
-        }
-
-        /// <summary>
-        /// Centre: the plaza, the hub. Four routes meet -- street south,
-        /// upper street north, the alley mouth west, the blocked arch east.
+        /// Centre: the plaza, the hub and main chokepoint. Four routes meet --
+        /// street south, upper street north, the alley mouth west, the blocked
+        /// arch east.
         /// </summary>
         private static void BuildPlaza()
         {
             var g = Group("Centre - Plaza");
 
-            // West side, split by the mouth that links to the western street.
-            Block("PlazaWall_W_S", g, WestStX1, -PlazaW, StreetZ1, 54f, 0f, MassH);
-            Block("PlazaWall_W_N", g, WestStX1, -PlazaW, 59f, PlazaZ1, 0f, MassH);
+            // West side, split by the alley mouth.
+            Block("PlazaWall_W_S", g, GroundX0, -PlazaW, StreetZ1, MouthZ0, 0f, MassH);
+            Block("PlazaWall_W_N", g, LegAX1, -PlazaW, MouthZ1, PlazaZ1, 0f, MassH);
 
             // The dead fountain: headless robed statue in a dry cracked basin.
             Cylinder("FountainBasin", g, new Vector3(0f, 0.4f, 50f), 5f, 0.8f, propMat);
@@ -274,8 +300,9 @@ namespace Flair.EditorTools
             Block("ArchWall_S", g, PlazaW, GroundX1, StreetZ1, 46f, 0f, MassH);
             Block("ArchWall_N", g, PlazaW, GroundX1, 54f, PlazaZ1, 0f, MassH);
 
-            // The mouth: open below 7m, solid mass above.
-            Block("ArchLintel", g, PlazaW, GroundX1, 46f, 54f, 7f, MassH);
+            // The mouth: open below 7m, solid mass above. Stops where the
+            // collapse plug starts rather than overlapping it.
+            Block("ArchLintel", g, PlazaW, 24f, 46f, 54f, 7f, MassH);
 
             // A solid plug does the sealing. Loose rubble at ankle height is not
             // a wall, and the map edge is a few metres past the far side.
@@ -292,8 +319,10 @@ namespace Flair.EditorTools
         {
             var g = Group("Upper Street");
 
+            // The sliver between the plaza's north-west corner and leg A is
+            // PlazaWall_W_N's job -- a second block over the same space would
+            // be a duplicate, and two identical boxes flicker on every face.
             Block("Row_W", g, RowW, -StreetW, PlazaZ1, UpperZ1, 0f, MassH);
-            Block("Row_W_Back", g, WestStX1, RowW, PlazaZ1, DogZ0, 0f, MassH);
 
             Block("Row_E_S", g, StreetW, GroundX1, PlazaZ1, 70f, 0f, MassH);
             Block("Row_E_N", g, StreetW, GroundX1, 80f, UpperZ1, 0f, MassH);
@@ -312,46 +341,45 @@ namespace Flair.EditorTools
         }
 
         /// <summary>
-        /// The western street: the second north-south route, reached from the
-        /// crossroads at its south end and from the plaza through the alley
-        /// mouth halfway up. One sharp dogleg makes a blind corner, then it
-        /// runs on to the droggery's back yard -- so the crime scene has a
-        /// front and a back way in.
+        /// West: the Service Alley. The parallel back route from the plaza to
+        /// the droggery's rear door -- the spur that makes the map a loop, so
+        /// the player can circle the crime scene. A sharp dogleg partway up
+        /// makes a blind corner: legs A and B overlap by only a metre in x, so
+        /// you cannot see round it.
         /// </summary>
-        private static void BuildWestStreet()
+        private static void BuildServiceAlley()
         {
-            var g = Group("West Street and Service Alley");
+            var g = Group("West - Service Alley");
 
-            // Outer wall, the whole length.
-            Block("WestOuter", g, GroundX0, WestStX0, CrossZ0, 92f, 0f, MassH);
+            // Outer wall, west of the whole run.
+            Block("AlleyOuter_A", g, GroundX0, LegAX0, MouthZ0, DogZ0, 0f, MassH);
+            Block("AlleyOuter_B", g, GroundX0, LegBX0, DogZ0, YardZ0, 0f, MassH);
 
-            // East wall of the southern stretch, between it and the plaza.
-            Block("WestInner_S", g, WestStX1, RowW, CrossZ1, StreetZ1, 0f, MassH);
+            // The blind corner: coming north up leg A you hit this and must
+            // jog west before you can carry on.
+            Block("DoglegMass", g, LegBX1, RowW, DogZ1, YardZ0, 0f, MassH);
 
-            // The blind corner: coming north you hit this and must jog east.
-            Block("DoglegMass", g, WestStX0, NorthLegX0, DogZ1, 92f, 0f, MassH);
-
-            // North of the jog the street is x -23..-18, so wall off the rest.
-            Block("StoopFlank_W", g, RowW, -10f, UpperZ1, 92f, 0f, MassH);
+            // Between the stoop and the alley.
+            Block("StoopFlank_W", g, RowW, -10f, UpperZ1, YardZ0, 0f, MassH);
 
             // Back yard walls.
-            Block("YardWall_W", g, GroundX0, WestStX0, 92f, 98f, 0f, MassH);
-            Block("YardWall_N", g, GroundX0, -10f, 98f, GroundZ1 - 1f, 0f, MassH);
+            Block("YardWall_W", g, GroundX0, LegBX0, YardZ0, YardZ1, 0f, MassH);
+            Block("YardWall_N", g, GroundX0, -10f, YardZ1, GroundZ1 - 1f, 0f, MassH);
 
             // Bins and crates. They hug the walls on purpose: the player capsule
             // is 1.16m across including skin width, so anything that leaves less
             // than ~1.7m stops being clutter and starts being a wall.
-            Block("Bin_1", g, WestStX0, WestStX0 + 1.1f, 44f, 45.2f, 0f, 1.3f, propMat);
-            Block("Crate_1", g, WestStX0, WestStX0 + 1.1f, 62f, 63.4f, 0f, 1.1f, propMat);
-            Block("Crate_2", g, WestStX0 + 0.1f, WestStX0 + 1f, 62.7f, 63.9f, 1.1f, 2f, propMat);
-            Block("Bin_2", g, NorthLegX0, NorthLegX0 + 1.1f, 80f, 81.2f, 0f, 1.3f, propMat);
-            Block("Crate_3", g, NorthLegX0, NorthLegX0 + 1.1f, 86f, 87.4f, 0f, 1.2f, propMat);
+            Block("Bin_1", g, LegAX0, LegAX0 + 1.1f, 62f, 63.2f, 0f, 1.3f, propMat);
+            Block("Crate_1", g, LegAX0, LegAX0 + 1.1f, 67f, 68.4f, 0f, 1.1f, propMat);
+            Block("Crate_2", g, LegAX0 + 0.1f, LegAX0 + 1f, 67.7f, 68.9f, 1.1f, 2f, propMat);
+            Block("Bin_2", g, LegBX0, LegBX0 + 1.1f, 82f, 83.2f, 0f, 1.3f, propMat);
+            Block("Crate_3", g, LegBX0, LegBX0 + 1.1f, 88f, 89.4f, 0f, 1.2f, propMat);
 
             // Fire escapes, and the raised catwalk that casts a hard bar of
             // shadow across the street once task 20's lighting lands.
-            Block("Catwalk", g, WestStX0, WestStX1, 56f, 58f, 5.5f, 5.8f, propMat);
-            Block("FireEscape_A", g, WestStX1 - 0.6f, WestStX1, 46f, 50f, 3f, 3.3f, propMat);
-            Block("FireEscape_B", g, WestStX1 - 0.6f, WestStX1, 50f, 54f, 6f, 6.3f, propMat);
+            Block("Catwalk", g, LegAX0, LegAX1, 64f, 66f, 5.5f, 5.8f, propMat);
+            Block("FireEscape_A", g, LegAX1 - 0.6f, LegAX1, 60f, 64f, 3f, 3.3f, propMat);
+            Block("FireEscape_B", g, LegAX1 - 0.6f, LegAX1, 66f, 70f, 6f, 6.3f, propMat);
         }
 
         /// <summary>
@@ -379,23 +407,27 @@ namespace Flair.EditorTools
             // Front wall: door gap x -2..2, shattered window gap x 3..8.
             const float wallY = 6f;
             Block("Front_Pier_W", g, -10f, -2f, StoopZ1, StoopZ1 + 1f, 0f, wallY);
-            Block("Front_Pier_Mid", g, 2f, 3f, StoopZ1, StoopZ1 + 1f, 0f, wallY);
+            Block("Front_Pier_Mid", g, 2f, 3f, StoopZ1, StoopZ1 + 1f, 0f, 4.2f);
             Block("Front_Pier_E", g, 8f, 10f, StoopZ1, StoopZ1 + 1f, 0f, wallY);
             Block("Front_WindowSill", g, 3f, 8f, StoopZ1, StoopZ1 + 1f, 0f, 1f);
             Block("Front_Lintel", g, -2f, 8f, StoopZ1, StoopZ1 + 1f, 4.2f, wallY);
 
             // Glass on the pavement rather than inside -- it broke outward.
-            Rubble("ShatteredGlass", g, new Vector3(5.5f, 0.45f, 88.5f), 6, 3.2f, 0.25f);
+            Rubble("ShatteredGlass", g, new Vector3(5.5f, 0.45f, StoopZ1 - 1.5f), 6, 3.2f, 0.25f);
 
             // Hanging iron bracket sign with the witch's mark.
             Block("BracketArm", g, 7.8f, 9.6f, StoopZ1 - 0.2f, StoopZ1 + 0.1f, 5.2f, 5.5f, propMat);
             Block("WitchMarkSign", g, 8.6f, 9.6f, StoopZ1 - 0.3f, StoopZ1, 3.9f, 5.2f, propMat);
 
-            // Shell. Rear door gap on the west wall at z 93..96.
-            Block("Wall_W_S", g, -10f, -9f, StoopZ1 + 1f, 93f, 0f, wallY);
-            Block("Wall_W_N", g, -10f, -9f, 96f, DrogZ1, 0f, wallY);
+            // Shell. Rear door gap on the west wall, 3m wide, onto the yard.
+            // Everything here is written relative to StoopZ1 / DrogZ1 so moving
+            // the droggery does not leave the furniture behind in the street.
+            Block("Wall_W_S", g, -10f, -9f, StoopZ1 + 1f, StoopZ1 + 3f, 0f, wallY);
+            Block("Wall_W_N", g, -10f, -9f, StoopZ1 + 6f, DrogZ1, 0f, wallY);
             Block("Wall_E", g, 9f, 10f, StoopZ1 + 1f, DrogZ1, 0f, wallY);
-            Block("Wall_N", g, -10f, 10f, DrogZ1 - 1f, DrogZ1, 0f, wallY);
+            // Fits between the side walls rather than sharing their outer
+            // faces -- the west one is visible from the back yard.
+            Block("Wall_N", g, -9f, 9f, DrogZ1 - 1f, DrogZ1, 0f, wallY);
             Block("Ceiling", g, -10f, 10f, StoopZ1, DrogZ1, wallY, wallY + 0.5f);
 
             // The building above the shop: widest and most ornate on the block.
@@ -403,12 +435,12 @@ namespace Flair.EditorTools
 
             // Interior. Floor-to-ceiling bottles, long counter, overturned
             // stool, wall cabinet standing open and emptied.
-            Block("Shelves_E", g, 8f, 9f, 92f, DrogZ1 - 1f, 0f, wallY, propMat);
+            Block("Shelves_E", g, 8f, 9f, StoopZ1 + 2f, DrogZ1 - 1f, 0f, wallY, propMat);
             Block("Shelves_N", g, -9f, 8f, DrogZ1 - 2f, DrogZ1 - 1f, 0f, wallY, propMat);
-            Block("Counter", g, 3f, 4.4f, 92f, 99f, 0f, 1.1f, propMat);
-            Cylinder("OverturnedStool", g, new Vector3(1.4f, 0.22f, 95f), 0.45f, 0.44f, propMat);
-            Block("EmptiedCabinet", g, -9f, -8.2f, 97.5f, 100.5f, 0.8f, 3.4f, propMat);
-            Block("HangingHerbs", g, -6f, 1f, 93f, 97f, 5.2f, wallY, propMat);
+            Block("Counter", g, 3f, 4.4f, StoopZ1 + 2f, StoopZ1 + 9f, 0f, 1.1f, propMat);
+            Cylinder("OverturnedStool", g, new Vector3(1.4f, 0.22f, StoopZ1 + 5f), 0.45f, 0.44f, propMat);
+            Block("EmptiedCabinet", g, -9f, -8.2f, DrogZ1 - 5f, DrogZ1 - 2f, 0.8f, 3.4f, propMat);
+            Block("HangingHerbs", g, -6f, 1f, StoopZ1 + 3f, StoopZ1 + 7f, 5.2f, wallY, propMat);
         }
 
         /// <summary>
@@ -421,8 +453,8 @@ namespace Flair.EditorTools
         {
             var g = Group("Scent Anchors (for task 24)");
 
-            Anchor("ScentAnchor_Droggery_Cabinet", g, new Vector3(-7f, 1.2f, 99f));
-            Anchor("ScentAnchor_Alley_Dogleg", g, new Vector3(-22f, 1.2f, 72.5f));
+            Anchor("ScentAnchor_Droggery_Cabinet", g, new Vector3(-7f, 1.2f, DrogZ1 - 3f));
+            Anchor("ScentAnchor_Alley_Dogleg", g, new Vector3(-23f, 1.2f, 74.5f));
             Anchor("ScentAnchor_Plaza_Fountain", g, new Vector3(0f, 1.2f, 43f));
         }
 
