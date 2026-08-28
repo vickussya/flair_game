@@ -101,8 +101,14 @@ megalopolis of Unterstadt, in black, white and blood-red.
 VIEW & PERSPECTIVE
 In game: first person ("camera-eyes", see 6.2). The isometric view below exists only as a
 design reference, not as a camera the player ever gets. [inferred]
-Play area: a long narrow north-south rectangle, roughly 3:1, pinched at both ends. A street
-canyon, not an open field. [inferred]
+Play area: a north-south rectangle, roughly 2:1. A street canyon, not an open field - but a
+walkable one. The first greybox was built to the letter of this section, at 3:1 with 8m streets,
+an 18m-deep plaza and a 3m alley, and it walked as claustrophobic in the bad sense. Streets are
+now 12m, the plaza 30x24, the alley 5m. [widths set by walking it, 28 Aug 2026]
+The south end is no longer pinched: the office doorway recess is the full width of the street,
+which reads better than opening out of a narrow slot. The north end still is.
+Exact dimensions live in Assets/Editor/DistrictGreybox.cs, which builds the greybox from a
+coordinate table. Change the numbers there and re-run FLAIR > Greybox to reshape the level.
 The block is a slot - buildings rise 5-6 storeys and are capped by the dome ceiling hanging
 low overhead. The map has a roof and you can see it. [ceiling framing inferred]
 
@@ -114,9 +120,11 @@ WORLD LAYOUT (south to north)
   slurs in red. [street furniture inferred; graffiti canon]
 - CENTRE - the Plaza. The street widens into the map's hub and main chokepoint. A dead fountain
   with a headless robed statue in a dry cracked basin. Four routes meet here. [inferred]
-- WEST - the Service Alley. Two people wide, bins and crates, fire escapes above, a sharp dogleg
-  making a blind corner. Connects the plaza to the droggery's back door. The escape route and
-  the tightest chokepoint. [inferred]
+- WEST - the Service Alley. 5m wide, bins and crates, fire escapes above, a sharp dogleg making
+  a blind corner - the two legs meet at a true right angle, so you cannot see round it from
+  either side. Connects the plaza to the droggery's back door. The escape route and the tightest
+  chokepoint. [was "two people wide"; widened 28 Aug 2026 - at 3m the player capsule could not
+  get past the crates]
 - EAST - the Blocked Arch. A grand tiled transit archway sealed by collapse: rubble, twisted
   rebar, one swinging warning lamp. The map's dead end - it ends the world without a fence. [inferred]
 - NORTH END - The Droggery. Barbara's apothecary, the crime scene and the objective. Widest and
@@ -147,8 +155,13 @@ Atmosphere: retro-noir crossed with slow apocalypse. Damp, enclosed, recycled ai
 Beautiful and unwell. The street should feel like it is holding its breath.
 
 KEY LANDMARKS & TERRAIN
-- The dome ceiling - vast ribbed concrete-and-glass lid ~40m up with a visible structural seam,
+- The dome ceiling - vast ribbed concrete-and-glass lid ~26m up with a visible structural seam,
   condensation dripping, faint red hazard lights along the ribs. It replaces sky entirely.
+  [was ~40m. That contradicted "capped by the dome ceiling hanging low overhead" above: with
+  5-6 storey buildings, 40m leaves a 22m void over the rooftops and the street stops feeling
+  lidded. 26m sits 8m clear of the roofs. If we would rather have the void, the greybox tool
+  has a Ceiling flag and a DomeY constant - decide before task 20's lighting, since the ceiling
+  is what the artificial light bounces off. 28 Aug 2026]
 - The droggery facade - carved stone surround, hanging iron bracket sign with a witch's mark in
   red, bottles in the intact half of the window, shattered glass across the stoop.
 - The dead fountain - headless robed statue, dry cracked basin. The plaza's anchor.
@@ -363,6 +376,18 @@ help him in the next level - more informators; richer inventory etc.
 How does the player know they're making progress? (case file filling up? clue counter?) - there will be case file in which the player fills up the "data" - something like a puzzle
 How are wrong choices communicated without frustrating? - after a few wrong choices the client comes back to bunk and gives hints (could be information, could be a 2D vision that the player has missed)
 
+6.10 Bunk's Mind Inventory — the deduction board (NEW)
+Lives in the "mind" category of the case library/inventory (6.4). This is how a case actually gets solved, and it's the mechanism behind the deduction half of the finale (6.8).
+How it works: at the start of a case, the client's opening briefing/backstory is logged in a separate case window, not the mind inventory itself. Opening the mind inventory shows a running list of questions Bunk asks himself about the case.
+Some questions already carry an answer — authored backstory/experience Bunk already has. These read to the player as leads, not things to solve.
+The first question, on every case with no exception, is "What is the client hiding from me?" — always present, never pre-answered.
+As the player finds hints while investigating (smell/look/dialogue — 6.3/6.4/6.6), they attach each hint to whichever question they believe it answers. Attaching is free and ongoing through the whole case — nothing is checked question by question.
+The board is checked as a whole at final submission: this is the "present evidence" moment of the final confrontation (6.8). Every question matched to its correct hint wins the case. Any wrong pairing triggers 6.8's existing finale-fail outcome (case solved, no justice for the client, fewer units carried forward) — harder than the ongoing, softer wrong-deduction penalty in 5. (payment/patience loss), which covers missteps made earlier in the investigation, not the final submission.
+❓ Questions to answer:
+Can one hint answer more than one question, or is it strictly one hint → one question?
+Must every question have a hint attached before the player can submit, or can they submit with gaps?
+Are Bunk's own pre-answered questions visible from the start of the case, or do they unlock as related clues are found?
+
 PART 7 — Content List for the Demo (what must actually exist)
 The "how much are we really building" reality check. Fill in real counts.
 Scenes needed:
@@ -397,8 +422,16 @@ List your scenes and what loads them: __________________
 Key persistent objects (managers): e.g. GameManager, CaseManager, VisionManager, DialogueManager, AudioManager — which do you need? __________________
 8.4 How data is represented
 A clue, a case, a line of dialogue — decide the data shape. For narrative games, ScriptableObjects are the standard beginner-friendly way to store clues/cases as editable assets (no code changes to add a clue).
-▢ Clues as ScriptableObjects ▢ Hard-coded ▢ External file (JSON/CSV)
+☑ Clues as ScriptableObjects ▢ Hard-coded ▢ External file (JSON/CSV)
+DECIDED (task 3, 19 Aug 2026). Each clue is a ScriptableObject asset -
+Assets/Scripts/ClueData.cs, one asset per clue in Assets/Clues/.
 ❓ How does a designer add or edit a clue without touching C#?
+Create > Flair > Clue makes a new asset; fill it in the Inspector, then drop it
+on a ScentMarker's Clue field. No code changes, no recompile. ScentMarker holds
+no clue fields of its own any more, it only points at one of these.
+Fields: clueId, displayName, description, isTrueScent, leadsTo, visionDuration,
+visionId. Names agreed with Viki 28 Aug 2026 - renaming them means rewriting his
+gating and case-file code, so treat them as fixed.
 8.5 Systems → scripts map
 Design system (Part 6)
 Script(s) / components
