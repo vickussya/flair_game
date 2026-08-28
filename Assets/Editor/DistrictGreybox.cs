@@ -56,7 +56,11 @@ namespace Flair.EditorTools
         // Set false to take the lid off entirely and leave open space above the
         // rooftops. The level stays sealed either way -- the buildings do that,
         // not the ceiling.
-        private const bool Ceiling = true;
+        //
+        // static readonly rather than const on purpose: a const here makes the
+        // branch below it a compile-time constant, and the compiler warns about
+        // unreachable code in whichever state you are not using.
+        private static readonly bool Ceiling = true;
 
         // Part 3.5 says the dome is "~40m up" AND that the buildings are
         // "capped by the dome ceiling hanging low overhead". With 18m buildings
@@ -344,8 +348,8 @@ namespace Flair.EditorTools
         /// West: the Service Alley. The parallel back route from the plaza to
         /// the droggery's rear door -- the spur that makes the map a loop, so
         /// the player can circle the crime scene. A sharp dogleg partway up
-        /// makes a blind corner: legs A and B overlap by only a metre in x, so
-        /// you cannot see round it.
+        /// makes a blind corner: legs A and B share only a corner and do not
+        /// overlap in x at all, so there is no sightline round it either way.
         /// </summary>
         private static void BuildServiceAlley()
         {
@@ -567,11 +571,16 @@ namespace Flair.EditorTools
             go.GetComponent<MeshRenderer>().sharedMaterial = mat;
         }
 
-        /// <summary>Scattered debris. Deterministic, so re-running does not reshuffle it.</summary>
+        /// <summary>
+        /// Scattered debris, seeded off the pile's name so re-running produces
+        /// the identical layout. That matters more than it looks: the scene is
+        /// a 17,000-line text file that does not merge, so rubble that
+        /// reshuffled on every build would fill every diff with noise.
+        /// </summary>
         private static void Rubble(string name, Transform parent, Vector3 centre,
                                    int count, float spread, float maxSize = 1.6f)
         {
-            var rng = new System.Random(name.GetHashCode());
+            var rng = new System.Random(StableHash(name));
             var g = new GameObject(name);
             g.transform.SetParent(parent, false);
 
@@ -591,6 +600,24 @@ namespace Flair.EditorTools
                     (float)rng.NextDouble() * 40f);
                 go.transform.localScale = new Vector3(s, s * 0.6f, s);
                 go.GetComponent<MeshRenderer>().sharedMaterial = propMat;
+            }
+        }
+
+        /// <summary>
+        /// FNV-1a. string.GetHashCode is not guaranteed stable across runs --
+        /// on some .NET runtimes it is randomised per process -- which would
+        /// mean the same rubble pile landing somewhere new every session.
+        /// </summary>
+        private static int StableHash(string s)
+        {
+            unchecked
+            {
+                int hash = (int)2166136261;
+                foreach (char c in s)
+                {
+                    hash = (hash ^ c) * 16777619;
+                }
+                return hash & 0x7fffffff;
             }
         }
 
