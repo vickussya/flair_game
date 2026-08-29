@@ -48,7 +48,7 @@ came out of the case — **37** the Penitent, **38** Barbara, **39** hologram lo
 
 ---
 
-## ⬜ 3. Clue / case data model (M)
+## ✅ 3. Clue / case data model (M)
 
 **Do this first. Viki is blocked on it** — his gating, case file UI and level
 scripting all read whatever shape you define.
@@ -75,7 +75,7 @@ code changes, and a `ScentMarker` can be pointed at it.
 
 ---
 
-## ⬜ 17. 2D vision style guide (S)
+## ✅ 17. 2D vision style guide (S)
 
 **Blocks tasks 16, 18a, 18b and 20.** Small but it gates a lot — do it early.
 
@@ -93,7 +93,7 @@ same game.
 
 ---
 
-## ⬜ 13. Demo district layout (M)
+## ✅ 13. Demo district layout (M)
 
 **Blocks tasks 14 and 24.** Greybox only — shapes, no art.
 
@@ -130,7 +130,7 @@ clearly under the noir grade.
 
 ---
 
-## ⬜ 20. Noir grade + post-processing (M)
+## ✅ 20. Noir grade + post-processing (M)
 
 **Needs task 17. Blocks task 15.** Do a rough pass early — it changes how every
 texture reads, and texturing against the wrong values wastes days.

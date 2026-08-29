@@ -4,38 +4,25 @@ using UnityEngine;
 namespace Flair
 {
     /// <summary>
-    /// A spot in the world that can be smelled. Stage 2 stores the clue as plain
-    /// fields on the component: concept.md 8.4 (ScriptableObject vs hard-coded vs
-    /// external file) is still undecided, so nothing here commits to an answer.
-    /// Whatever wins, it replaces these fields without touching the vision flow.
+    /// A spot in the world that can be smelled. Points at a ClueData asset
+    /// (concept.md 8.4) rather than holding the clue's fields itself, so a
+    /// designer can add or edit a clue from the Inspector with no C# changes.
     /// </summary>
     public class ScentMarker : MonoBehaviour
     {
         [Header("Clue")]
-        [Tooltip("Stable id used by the clue log. Must be unique.")]
-        [SerializeField] private string clueId = "clue_placeholder";
-
-        [SerializeField] private string displayName = "An unfamiliar scent";
-
-        [Tooltip("Red herrings (6.3) are meant to burn time without paying out. " +
-                 "The gate is NOT built yet -- this flag only records the intent " +
-                 "so the data is ready when that stage arrives.")]
-        [SerializeField] private bool isTrueScent = true;
+        [SerializeField] private ClueData clue;
 
         [Header("Detection")]
         [Tooltip("How close the player must be, in metres.")]
         [SerializeField] private float smellRadius = 2.5f;
 
-        [Header("Vision")]
-        [Tooltip("Placeholder length. 6.5 asks for 10-15s; kept short here so " +
-                 "testing the loop is not tedious.")]
-        [SerializeField] private float visionDuration = 3f;
-
-        public string ClueId => clueId;
-        public string DisplayName => displayName;
-        public bool IsTrueScent => isTrueScent;
+        public ClueData Clue => clue;
+        public string ClueId => clue != null ? clue.ClueId : string.Empty;
+        public string DisplayName => clue != null ? clue.DisplayName : string.Empty;
+        public bool IsTrueScent => clue == null || clue.IsTrueScent;
         public float SmellRadius => smellRadius;
-        public float VisionDuration => visionDuration;
+        public float VisionDuration => clue != null ? clue.VisionDuration : 0f;
 
         /// <summary>Set once its vision has played. Stops the prompt reappearing.</summary>
         public bool AlreadyExamined { get; set; }
@@ -54,7 +41,7 @@ namespace Flair
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = isTrueScent
+            Gizmos.color = IsTrueScent
                 ? new Color(0.2f, 0.9f, 0.4f, 0.9f)
                 : new Color(0.9f, 0.3f, 0.2f, 0.9f);
 

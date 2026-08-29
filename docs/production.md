@@ -38,8 +38,16 @@ List your scenes and what loads them: __________________
 Key persistent objects (managers): e.g. GameManager, CaseManager, VisionManager, DialogueManager, AudioManager — which do you need? __________________
 8.4 How data is represented
 A clue, a case, a line of dialogue — decide the data shape. For narrative games, ScriptableObjects are the standard beginner-friendly way to store clues/cases as editable assets (no code changes to add a clue).
-▢ Clues as ScriptableObjects ▢ Hard-coded ▢ External file (JSON/CSV)
+☑ Clues as ScriptableObjects ▢ Hard-coded ▢ External file (JSON/CSV)
+DECIDED (task 3, 19 Aug 2026). Each clue is a ScriptableObject asset -
+Assets/Scripts/ClueData.cs, one asset per clue in Assets/Clues/.
 ❓ How does a designer add or edit a clue without touching C#?
+Create > Flair > Clue makes a new asset; fill it in the Inspector, then drop it
+on a ScentMarker's Clue field. No code changes, no recompile. ScentMarker holds
+no clue fields of its own any more, it only points at one of these.
+Fields: clueId, displayName, description, isTrueScent, leadsTo, visionDuration,
+visionId. Names agreed with Viki 28 Aug 2026 - renaming them means rewriting his
+gating and case-file code, so treat them as fixed.
 8.5 Systems → scripts map
 Design system (Part 6)
 Script(s) / components

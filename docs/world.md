@@ -57,8 +57,14 @@ megalopolis of Unterstadt, in black, white and blood-red.
 VIEW & PERSPECTIVE
 In game: first person ("camera-eyes", see 6.2). The isometric view below exists only as a
 design reference, not as a camera the player ever gets. [inferred]
-Play area: a long narrow north-south rectangle, roughly 3:1, pinched at both ends. A street
-canyon, not an open field. [inferred]
+Play area: a north-south rectangle, roughly 2:1. A street canyon, not an open field - but a
+walkable one. The first greybox was built to the letter of this section, at 3:1 with 8m streets,
+an 18m-deep plaza and a 3m alley, and it walked as claustrophobic in the bad sense. Streets are
+now 12m, the plaza 30x24, the alley 5m. [widths set by walking it, 28 Aug 2026]
+The south end is no longer pinched: the office doorway recess is the full width of the street,
+which reads better than opening out of a narrow slot. The north end still is.
+Exact dimensions live in Assets/Editor/DistrictGreybox.cs, which builds the greybox from a
+coordinate table. Change the numbers there and re-run FLAIR > Greybox to reshape the level.
 The block is a slot - buildings rise 5-6 storeys and are capped by the dome ceiling hanging
 low overhead. The map has a roof and you can see it. [ceiling framing inferred]
 
@@ -70,9 +76,11 @@ WORLD LAYOUT (south to north)
   slurs in red. [street furniture inferred; graffiti canon]
 - CENTRE - the Plaza. The street widens into the map's hub and main chokepoint. A dead fountain
   with a headless robed statue in a dry cracked basin. Four routes meet here. [inferred]
-- WEST - the Service Alley. Two people wide, bins and crates, fire escapes above, a sharp dogleg
-  making a blind corner. Connects the plaza to the droggery's back door. The escape route and
-  the tightest chokepoint. [inferred]
+- WEST - the Service Alley. 5m wide, bins and crates, fire escapes above, a sharp dogleg making
+  a blind corner - the two legs meet at a true right angle, so you cannot see round it from
+  either side. Connects the plaza to the droggery's back door. The escape route and the tightest
+  chokepoint. [was "two people wide"; widened 28 Aug 2026 - at 3m the player capsule could not
+  get past the crates]
 - EAST - the Blocked Arch. A grand tiled transit archway sealed by collapse: rubble, twisted
   rebar, one swinging warning lamp. The map's dead end - it ends the world without a fence. [inferred]
 - EAST, off the plaza - the Doctor's house. Catvile the vampire info-broker holds court here, five
@@ -110,8 +118,13 @@ Atmosphere: retro-noir crossed with slow apocalypse. Damp, enclosed, recycled ai
 Beautiful and unwell. The street should feel like it is holding its breath.
 
 KEY LANDMARKS & TERRAIN
-- The dome ceiling - vast ribbed concrete-and-glass lid ~40m up with a visible structural seam,
+- The dome ceiling - vast ribbed concrete-and-glass lid ~26m up with a visible structural seam,
   condensation dripping, faint red hazard lights along the ribs. It replaces sky entirely.
+  [was ~40m. That contradicted "capped by the dome ceiling hanging low overhead" above: with
+  5-6 storey buildings, 40m leaves a 22m void over the rooftops and the street stops feeling
+  lidded. 26m sits 8m clear of the roofs. If we would rather have the void, the greybox tool
+  has a Ceiling flag and a DomeY constant - decide before task 20's lighting, since the ceiling
+  is what the artificial light bounces off. 28 Aug 2026]
 - The droggery facade - carved stone surround, hanging iron bracket sign with a witch's mark in
   red, bottles in the intact half of the window, shattered glass across the stoop.
 - The dead fountain - headless robed statue, dry cracked basin. The plaza's anchor.
