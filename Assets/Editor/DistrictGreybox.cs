@@ -50,9 +50,9 @@ namespace Flair.EditorTools
         //                          office           z -8..-1
         // ---------------------------------------------------------------
 
-        private const float StreetW = 6f;      // main street runs x -6..6
-        private const float PlazaW = 15f;      // plaza widens to x -15..15
-        private const float MassH = 18f;       // buildings: 5-6 storeys at ~3m
+        internal const float StreetW = 6f;      // main street runs x -6..6
+        internal const float PlazaW = 15f;      // plaza widens to x -15..15
+        internal const float MassH = 18f;       // buildings: 5-6 storeys at ~3m
         // Set false to take the lid off entirely and leave open space above the
         // rooftops. The level stays sealed either way -- the buildings do that,
         // not the ceiling.
@@ -68,33 +68,33 @@ namespace Flair.EditorTools
         // and the street stops feeling lidded. Going with "capped": 26m puts it
         // 8m over the roofs, close enough to read as a ceiling. Set it back to
         // 40 here if you want the void.
-        private const float DomeY = 26f;
+        internal const float DomeY = 26f;
 
         // South-to-north landmarks, as z coordinates.
-        private const float OfficeZ0 = -9f;    // back of the office recess
-        private const float OfficeZ1 = -1f;    // office doorway meets the street
-        private const float StreetZ1 = 38f;    // lower street ends at the plaza
-        private const float PlazaZ1 = 62f;     // plaza ends, upper street begins
-        private const float UpperZ1 = 90f;     // upper street ends at the stoop
-        private const float StoopZ1 = 94f;     // stoop ends, droggery front wall
-        private const float DrogZ1 = 106f;     // back of the droggery
+        internal const float OfficeZ0 = -9f;    // back of the office recess
+        internal const float OfficeZ1 = -1f;    // office doorway meets the street
+        internal const float StreetZ1 = 38f;    // lower street ends at the plaza
+        internal const float PlazaZ1 = 62f;     // plaza ends, upper street begins
+        internal const float UpperZ1 = 90f;     // upper street ends at the stoop
+        internal const float StoopZ1 = 94f;     // stoop ends, droggery front wall
+        internal const float DrogZ1 = 106f;     // back of the droggery
 
         // Building rows sit 12m apart either side of the main street.
-        private const float RowW = -18f, RowE = 18f;
+        internal const float RowW = -18f, RowE = 18f;
 
         // The service alley, 5m wide: west off the plaza, north up leg A, a
         // sharp dogleg west, then leg B to the droggery's back yard. Legs A and
         // B do not overlap in x at all -- a true right-angle corner, which is
         // what makes it properly blind.
-        private const float MouthZ0 = 54f, MouthZ1 = 59f;
-        private const float LegAX0 = -23f, LegAX1 = -18f;
-        private const float DogZ0 = 72f, DogZ1 = 77f;
-        private const float LegBX0 = -28f, LegBX1 = -23f;
-        private const float YardZ0 = 96f, YardZ1 = 102f;
+        internal const float MouthZ0 = 54f, MouthZ1 = 59f;
+        internal const float LegAX0 = -23f, LegAX1 = -18f;
+        internal const float DogZ0 = 72f, DogZ1 = 77f;
+        internal const float LegBX0 = -28f, LegBX1 = -23f;
+        internal const float YardZ0 = 96f, YardZ1 = 102f;
 
         // Ground / dome extents, wide enough to cover the alley and the arch.
-        private const float GroundX0 = -33f, GroundX1 = 29f;
-        private const float GroundZ0 = -9f, GroundZ1 = 111f;
+        internal const float GroundX0 = -33f, GroundX1 = 29f;
+        internal const float GroundZ0 = -9f, GroundZ1 = 111f;
 
         private static Transform root;
         private static Material groundMat, massMat, propMat;

@@ -126,7 +126,7 @@ clearly under the noir grade.
 
 ---
 
-## ⬜ 20. Noir grade + post-processing (M)
+## ✅ 20. Noir grade + post-processing (M)
 
 **Needs task 17. Blocks task 15.** Do a rough pass early — it changes how every
 texture reads, and texturing against the wrong values wastes days.
