@@ -22,6 +22,12 @@ namespace Flair
 
         [SerializeField] private Text promptLabel;
 
+        [Header("End card (optional -- leave empty until LevelEndScreen is wired)")]
+        [Tooltip("Must sit BELOW the fade overlay in the Canvas, so it draws on top of black.")]
+        [SerializeField] private GameObject endCardPanel;
+
+        [SerializeField] private Text endCardLabel;
+
         private void Awake()
         {
             if (fadeOverlay == null || visionPanel == null ||
@@ -38,6 +44,11 @@ namespace Flair
 
             visionPanel.SetActive(false);
             promptLabel.gameObject.SetActive(false);
+
+            if (endCardPanel != null)
+            {
+                endCardPanel.SetActive(false);
+            }
         }
 
         public void ShowPrompt(string text)
@@ -55,6 +66,26 @@ namespace Flair
         }
 
         public void HideVision() => visionPanel.SetActive(false);
+
+        public void ShowEndCard(string text)
+        {
+            if (endCardPanel == null || endCardLabel == null)
+            {
+                Debug.LogWarning("VisionHud: end card is not wired, so the level ends on black.", this);
+                return;
+            }
+
+            endCardLabel.text = text;
+            endCardPanel.SetActive(true);
+        }
+
+        public void HideEndCard()
+        {
+            if (endCardPanel != null)
+            {
+                endCardPanel.SetActive(false);
+            }
+        }
 
         /// <summary>Fade the black overlay to <paramref name="target"/> alpha (0 = clear, 1 = black).</summary>
         public IEnumerator FadeTo(float target, float duration)

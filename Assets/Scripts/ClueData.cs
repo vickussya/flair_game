@@ -19,9 +19,9 @@ namespace Flair
         [Tooltip("What the clue actually is, for whoever is authoring the case.")]
         [SerializeField] private string description;
 
-        [Tooltip("Red herrings (6.3) are meant to burn time without paying out. " +
-                 "The gate is NOT built yet -- this flag only records the intent " +
-                 "so the data is ready when that stage arrives.")]
+        [Tooltip("Red herrings (6.3) burn time without paying out. ClueLog reads " +
+                 "this: a false scent still plays its vision, but never advances " +
+                 "the finale gate.")]
         [SerializeField] private bool isTrueScent = true;
 
         [Tooltip("The next clue in the chain (concept.md 5.3). Leave empty if " +

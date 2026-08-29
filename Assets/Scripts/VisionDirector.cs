@@ -59,9 +59,10 @@ namespace Flair
         }
 
         /// <summary>
-        /// Ignored if a vision is already running. Note there is deliberately no
-        /// red-herring check here yet: ScentMarker.IsTrueScent carries the intent,
-        /// but 6.3's real/fake split is a later stage.
+        /// Ignored if a vision is already running. Every scent still plays its
+        /// vision, true or false -- what a red herring does NOT do is advance the
+        /// finale gate, and ClueLog handles that. The rest of 6.3's real/fake
+        /// split (burning stamina, going nowhere) is still a later stage.
         /// </summary>
         public void BeginVision(ScentMarker marker)
         {
@@ -103,7 +104,7 @@ namespace Flair
 
             // 5. Bank the clue and hand control back.
             marker.AlreadyExamined = true;
-            clueLog.TryLog(marker.ClueId, marker.DisplayName);
+            clueLog.TryLog(marker.Clue);
 
             player.SetControlEnabled(true);
             yield return hud.FadeTo(0f, fadeDuration);
