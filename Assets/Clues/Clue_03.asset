@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a2cf4c44f627394c967c0542dc24dfd, type: 3}
-  m_Name: Clue_01
+  m_Name: Clue_03
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ClueData
-  clueId: clue_01
-  displayName: Cordite and wet wool
-  description: 
+  clueId: clue_03_tobacco
+  displayName: Death and expensive tobacco
+  description: The service alley, where Borlow's trail simply stops. Only one kind
+    of man in the Privy smokes that leaf.
   isTrueScent: 1
-  leadsTo: {fileID: 11400000, guid: d5c49977936cc2e40b3180cc4810f725, type: 2}
+  leadsTo: {fileID: 0}
   visionDuration: 3
-  visionId: 
+  visionId: vision_03_tobacco

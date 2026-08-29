@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a2cf4c44f627394c967c0542dc24dfd, type: 3}
-  m_Name: Clue_01
+  m_Name: Clue_02
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ClueData
-  clueId: clue_01
-  displayName: Cordite and wet wool
-  description: 
+  clueId: clue_02_four_scents
+  displayName: The four lingering scents
+  description: What the four customers left in the room, matched against the damaged
+    hologram. Three read as ordinary people. The fourth is logged now and not understood
+    yet.
   isTrueScent: 1
-  leadsTo: {fileID: 11400000, guid: d5c49977936cc2e40b3180cc4810f725, type: 2}
+  leadsTo: {fileID: 11400000, guid: 935467fde85fa6b428c3277bf4a1dce2, type: 2}
   visionDuration: 3
-  visionId: 
+  visionId: vision_02_four_scents

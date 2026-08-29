@@ -37,10 +37,20 @@ namespace Flair.EditorTools
             Chain(c1, c2);
             Chain(c2, c3);
 
-            // Locations are concept.md 5.3, coordinates are DistrictGreybox's:
-            // the droggery is z 94..106, the alley dogleg is x -28..-23 / z 72..77.
-            EnsureMarker("ScentMarker_01", new Vector3(-3.5f, 1f, 99f), c1);
-            EnsureMarker("ScentMarker_02", new Vector3(3.5f, 1f, 101.5f), c2);
+            // Locations are concept.md 5.3, coordinates are DistrictGreybox's.
+            // The droggery interior is x -9..9, z 95..105. Watch the furniture:
+            // the counter is x 3..4.4 / z 96..103, Shelves_N is z 104..105, and
+            // the emptied cabinet is x -9..-8.2 / z 101..104.
+            //
+            // 1. The hollow vial sits among the shelves, a metre clear of the
+            //    north run, because that is where 5.3 says it was left.
+            EnsureMarker("ScentMarker_01", new Vector3(-2f, 1f, 103f), c1);
+
+            // 2. The four lingering scents hang mid-room, where the customers
+            //    stood. Was 3.5/101.5, which put the sphere inside the counter.
+            EnsureMarker("ScentMarker_02", new Vector3(0f, 1f, 98f), c2);
+
+            // 3. Death and tobacco, at the blind corner of the alley dogleg.
             EnsureMarker("ScentMarker_03", new Vector3(-25.5f, 1f, 74.5f), c3);
 
             BuildEndCard();
