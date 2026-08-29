@@ -125,6 +125,9 @@ KEY LANDMARKS & TERRAIN
   lidded. 26m sits 8m clear of the roofs. If we would rather have the void, the greybox tool
   has a Ceiling flag and a DomeY constant - decide before task 20's lighting, since the ceiling
   is what the artificial light bounces off. 28 Aug 2026]
+  DECIDED 29 Aug 2026: keep the low ceiling at 26m. The dome is part of the world and it is what
+  makes this city look like nowhere else - a street with a lid on it. The void would read as an
+  ordinary night sky, which is exactly what Unterstadt does not have. Grade against 26m.
 - The droggery facade - carved stone surround, hanging iron bracket sign with a witch's mark in
   red, bottles in the intact half of the window, shattered glass across the stoop.
 - The dead fountain - headless robed statue, dry cracked basin. The plaza's anchor.
