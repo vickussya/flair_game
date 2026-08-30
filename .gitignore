@@ -104,3 +104,8 @@ crashlytics-build.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,dotnetcore,visualstudiocode
+# Bunk's FBX is 54MB and the account's Git LFS budget is exhausted, so the
+# model is kept local for now and shared out-of-band. Remove these two lines
+# (and commit the .meta alongside the .fbx) once LFS has room again.
+/Assets/Characters/Bunk/Bunk.fbx
+/Assets/Characters/Bunk/Bunk.fbx.meta
