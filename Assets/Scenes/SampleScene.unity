@@ -2889,6 +2889,7 @@ GameObject:
   - component: {fileID: 277443563}
   - component: {fileID: 277443562}
   - component: {fileID: 277443567}
+  - component: {fileID: 277443568}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -2961,6 +2962,7 @@ MonoBehaviour:
   visionPanel: {fileID: 732467686}
   visionLabel: {fileID: 1879351228}
   promptLabel: {fileID: 424754175}
+  countdownLabel: {fileID: 893048219}
   endCardPanel: {fileID: 1691535910}
   endCardLabel: {fileID: 1406240906}
 --- !u!4 &277443566
@@ -3004,6 +3006,32 @@ MonoBehaviour:
     OF SLICE'
   pauseBeforeCard: 0.75
   fadeDuration: 1
+  thinkingTime: 20
+--- !u!114 &277443568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277443561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2e4555dfc5dac40b30911880fcd45c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flair.InventoryHud
+  panel: {fileID: 1269754455}
+  rowParent: {fileID: 300469135}
+  headerLabel: {fileID: 442214942}
+  hintLabel: {fileID: 1611705299}
+  hintText: Press E to open Scent Inventory
+  hintOpacity: 0.35
+  hintMinOpacity: 0.08
+  hintPulsePeriod: 2.4
+  hintFadeInDuration: 1.2
+  foundColor: {r: 1, g: 1, b: 1, a: 1}
+  unfoundColor: {r: 1, g: 1, b: 1, a: 0.25}
+  completeColor: {r: 0.85, g: 0.1, b: 0.15, a: 1}
+  rowFontSize: 22
 --- !u!1 &279622723
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,6 +3361,68 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &300469134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300469135}
+  - component: {fileID: 300469136}
+  m_Layer: 0
+  m_Name: Rows
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &300469135
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300469134}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1269754456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -35}
+  m_SizeDelta: {x: -120, y: -190}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &300469136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300469134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 18
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &303732648
 GameObject:
   m_ObjectHideFlags: 0
@@ -3584,6 +3674,7 @@ GameObject:
   - component: {fileID: 305808529}
   - component: {fileID: 305808528}
   - component: {fileID: 305808527}
+  - component: {fileID: 305808531}
   m_Layer: 0
   m_Name: ScentMarker_01
   m_TagString: Untagged
@@ -3605,6 +3696,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentMarker
   clue: {fileID: 11400000, guid: e39f8469a9524cd4cbe34d07e985ec13, type: 2}
   smellRadius: 2.5
+  visuals: []
+  glows: []
 --- !u!23 &305808528
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3630,7 +3723,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 9d5ce2a981e16cf4bb152b3af9348154, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3677,6 +3770,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305808531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305808526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc51e7c036f78046be06a40d50f42cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentDrift
+  halfExtents: {x: 0.7, y: 0.45, z: 0.7}
+  speed: 0.3
 --- !u!1 &306950764
 GameObject:
   m_ObjectHideFlags: 0
@@ -6197,6 +6304,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441459287}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &442214941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442214944}
+  - component: {fileID: 442214943}
+  - component: {fileID: 442214942}
+  m_Layer: 0
+  m_Name: Header
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &442214942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442214941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: SCENTS   0/0
+--- !u!222 &442214943
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442214941}
+  m_CullTransparentMesh: 1
+--- !u!224 &442214944
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442214941}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1269754456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: -120, y: 60}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &442318488
 GameObject:
   m_ObjectHideFlags: 0
@@ -12192,6 +12378,85 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &893048217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 893048218}
+  - component: {fileID: 893048220}
+  - component: {fileID: 893048219}
+  m_Layer: 0
+  m_Name: EndCountdown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &893048218
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893048217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1954772618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -40, y: -30}
+  m_SizeDelta: {x: 140, y: 44}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &893048219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893048217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 26
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 2
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 0:20
+--- !u!222 &893048220
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893048217}
+  m_CullTransparentMesh: 1
 --- !u!1 &898228357
 GameObject:
   m_ObjectHideFlags: 0
@@ -12828,6 +13093,7 @@ GameObject:
   - component: {fileID: 914708075}
   - component: {fileID: 914708074}
   - component: {fileID: 914708077}
+  - component: {fileID: 914708078}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -12922,7 +13188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flair.PlayerController
   input: {fileID: 0}
   cameraPivot: {fileID: 765791688}
-  walkSpeed: 4
+  walkSpeed: 5
   jumpHeight: 1.1
   gravity: -19.62
   lookSensitivity: 0.1
@@ -12983,7 +13249,32 @@ MonoBehaviour:
   input: {fileID: 0}
   visionDirector: {fileID: 277443562}
   hud: {fileID: 277443565}
-  promptFormat: "Hold E \u2014 Smell: {0}"
+  inventory: {fileID: 914708078}
+  promptFormat: "Hold F \u2014 Smell: {0}"
+--- !u!114 &914708078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914708069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b68129c63684242baa63db8235f3d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentInventory
+  input: {fileID: 0}
+  player: {fileID: 0}
+  clueLog: {fileID: 277443563}
+  hud: {fileID: 277443568}
+  visionDirector: {fileID: 277443562}
+  rememberAcrossSessions: 0
+  learnedPrefsKey: flair.inventory.learned
+  hintDelay: 5
+  allScents:
+  - {fileID: 11400000, guid: e39f8469a9524cd4cbe34d07e985ec13, type: 2}
+  - {fileID: 11400000, guid: d5c49977936cc2e40b3180cc4810f725, type: 2}
+  - {fileID: 11400000, guid: 935467fde85fa6b428c3277bf4a1dce2, type: 2}
 --- !u!1 &948346078
 GameObject:
   m_ObjectHideFlags: 0
@@ -17206,6 +17497,7 @@ GameObject:
   - component: {fileID: 1238089121}
   - component: {fileID: 1238089120}
   - component: {fileID: 1238089119}
+  - component: {fileID: 1238089123}
   m_Layer: 0
   m_Name: ScentMarker_03
   m_TagString: Untagged
@@ -17227,6 +17519,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentMarker
   clue: {fileID: 11400000, guid: 935467fde85fa6b428c3277bf4a1dce2, type: 2}
   smellRadius: 2.5
+  visuals: []
+  glows: []
 --- !u!23 &1238089120
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17252,7 +17546,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 9d5ce2a981e16cf4bb152b3af9348154, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17299,6 +17593,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1238089123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238089118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc51e7c036f78046be06a40d50f42cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentDrift
+  halfExtents: {x: 0.7, y: 0.45, z: 0.7}
+  speed: 0.3
 --- !u!1 &1260988669
 GameObject:
   m_ObjectHideFlags: 0
@@ -17533,6 +17841,83 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268585501}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1269754455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1269754456}
+  - component: {fileID: 1269754458}
+  - component: {fileID: 1269754457}
+  m_Layer: 0
+  m_Name: InventoryPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1269754456
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269754455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 442214944}
+  - {fileID: 300469135}
+  m_Father: {fileID: 1954772618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1269754457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269754455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.85}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1269754458
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269754455}
+  m_CullTransparentMesh: 1
 --- !u!1 &1270221171
 GameObject:
   m_ObjectHideFlags: 0
@@ -18285,6 +18670,7 @@ GameObject:
   - component: {fileID: 1321303790}
   - component: {fileID: 1321303789}
   - component: {fileID: 1321303788}
+  - component: {fileID: 1321303792}
   m_Layer: 0
   m_Name: ScentMarker_02
   m_TagString: Untagged
@@ -18306,6 +18692,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentMarker
   clue: {fileID: 11400000, guid: d5c49977936cc2e40b3180cc4810f725, type: 2}
   smellRadius: 2.5
+  visuals: []
+  glows: []
 --- !u!23 &1321303789
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18331,7 +18719,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 9d5ce2a981e16cf4bb152b3af9348154, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18378,6 +18766,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1321303792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321303787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc51e7c036f78046be06a40d50f42cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flair.ScentDrift
+  halfExtents: {x: 0.7, y: 0.45, z: 0.7}
+  speed: 0.3
 --- !u!1 &1322097022
 GameObject:
   m_ObjectHideFlags: 0
@@ -22333,6 +22735,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608635493}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1611705298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1611705301}
+  - component: {fileID: 1611705300}
+  - component: {fileID: 1611705299}
+  m_Layer: 0
+  m_Name: InventoryHint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1611705299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611705298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.35}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Press E to open Scent Inventory
+--- !u!222 &1611705300
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611705298}
+  m_CullTransparentMesh: 1
+--- !u!224 &1611705301
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611705298}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1954772618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 40, y: -34}
+  m_SizeDelta: {x: 460, y: 40}
+  m_Pivot: {x: 0, y: 1}
 --- !u!1 &1614480002
 GameObject:
   m_ObjectHideFlags: 0
@@ -26055,6 +26536,9 @@ RectTransform:
   m_Children:
   - {fileID: 424754174}
   - {fileID: 732467687}
+  - {fileID: 1611705301}
+  - {fileID: 893048218}
+  - {fileID: 1269754456}
   - {fileID: 1817314186}
   - {fileID: 1691535911}
   m_Father: {fileID: 0}

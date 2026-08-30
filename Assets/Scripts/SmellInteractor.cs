@@ -14,9 +14,12 @@ namespace Flair
         [SerializeField] private VisionDirector visionDirector;
         [SerializeField] private VisionHud hud;
 
+        [Tooltip("The scent library. While it is open the player is reading, not smelling.")]
+        [SerializeField] private ScentInventory inventory;
+
         [Tooltip("Shown while a scent is in range. 'Hold' because the Interact " +
                  "action ships with a Hold interaction.")]
-        [SerializeField] private string promptFormat = "Hold E — Smell: {0}";
+        [SerializeField] private string promptFormat = "Hold F — Smell: {0}";
 
         private ScentMarker currentTarget;
 
@@ -36,9 +39,12 @@ namespace Flair
 
         private void Update()
         {
-            // The director owns the screen during a vision.
-            if (visionDirector.IsPlaying)
+            // The director owns the screen during a vision, and the inventory
+            // owns it while the player is reading. Neither wants a smell prompt
+            // drawn underneath it.
+            if (visionDirector.IsPlaying || (inventory != null && inventory.IsOpen))
             {
+                hud.HidePrompt();
                 return;
             }
 

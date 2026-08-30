@@ -22,6 +22,7 @@ namespace Flair
         private InputAction lookAction;
         private InputAction jumpAction;
         private InputAction interactAction;
+        private InputAction inventoryAction;
 
         /// <summary>WASD / left stick, as (x = strafe, y = forward).</summary>
         public Vector2 Move => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
@@ -39,9 +40,18 @@ namespace Flair
         /// True on the frame Interact completes. The shipped asset gives Interact
         /// a Hold interaction (~0.4s), so this is a short hold rather than a tap.
         /// Delete "Hold" on the Interact action to make it instant.
+        /// Bound to F -- smelling. E opens the inventory instead.
         /// </summary>
         public bool InteractPerformedThisFrame =>
             interactAction != null && interactAction.WasPerformedThisFrame();
+
+        /// <summary>
+        /// True only on the frame the inventory key (E) went down. A tap, not a
+        /// hold: the inventory is opened and closed constantly, and a hold there
+        /// would be tiring in a way it is not for the one-off smell commit.
+        /// </summary>
+        public bool InventoryPressedThisFrame =>
+            inventoryAction != null && inventoryAction.WasPressedThisFrame();
 
         private void Awake()
         {
@@ -66,6 +76,7 @@ namespace Flair
             lookAction = playerMap.FindAction("Look", throwIfNotFound: false);
             jumpAction = playerMap.FindAction("Jump", throwIfNotFound: false);
             interactAction = playerMap.FindAction("Interact", throwIfNotFound: false);
+            inventoryAction = playerMap.FindAction("Inventory", throwIfNotFound: false);
 
             if (moveAction == null || lookAction == null ||
                 jumpAction == null || interactAction == null)
@@ -73,6 +84,16 @@ namespace Flair
                 Debug.LogError($"PlayerInputReader: '{actionMapName}' is missing one of " +
                                "Move, Look, Jump or Interact.", this);
                 enabled = false;
+                return;
+            }
+
+            // Deliberately not fatal. Walking and smelling still work without it,
+            // and losing the whole player to a missing inventory key would be a
+            // worse failure than losing the inventory.
+            if (inventoryAction == null)
+            {
+                Debug.LogWarning($"PlayerInputReader: '{actionMapName}' has no 'Inventory' " +
+                                 "action, so the inventory cannot be opened.", this);
             }
         }
 
