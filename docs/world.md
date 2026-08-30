@@ -151,7 +151,7 @@ Style: flat high-contrast graphic UI with light case-file skeuomorphism. Thin wh
 panels at ~85% opacity, typewriter/stencil lettering, occasional paper grain. No gloss, no bevels,
 no glass. Red only for alerts and scent. [style inferred; the elements themselves come from Part 6]
 The HUD borders the map and never covers its centre. This is a game about looking.
-- Bottom-centre - interaction prompt. One white line on a black slab: "HOLD E - SMELL", scent name
+- Bottom-centre - interaction prompt. One white line on a black slab: "HOLD F - SMELL", scent name
   beneath in smaller type. Only visible in range.
 - Bottom-left - scent stamina bar. Horizontal segmented, white filling, draining to red. Nose glyph.
 - Above it - composure / wolf meter. Thinner, red outline, empty at rest, fills upward. [visual inferred]
