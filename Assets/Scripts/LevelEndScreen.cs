@@ -31,6 +31,14 @@ namespace Flair
         [SerializeField] private float pauseBeforeCard = 0.75f;
         [SerializeField] private float fadeDuration = 1f;
 
+        [Header("Think time")]
+        [Tooltip("Seconds between the last clue landing and the card taking the " +
+                 "screen. The player keeps control throughout -- the point is to " +
+                 "let them walk, re-read the scents and reach the answer " +
+                 "themselves, rather than being told the trail is warm the instant " +
+                 "the third clue lands.")]
+        [SerializeField] private float thinkingTime = 20f;
+
         private bool triggered;
 
         private void Awake()
@@ -84,12 +92,50 @@ namespace Flair
 
             yield return new WaitForSeconds(pauseBeforeCard);
 
+            yield return ThinkTime();
+
             player.SetControlEnabled(false);
             yield return hud.FadeTo(1f, fadeDuration);
             hud.ShowEndCard(endCardText);
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        }
+
+        /// <summary>
+        /// Counts the think time down in the corner, with the player still in
+        /// control. Deliberately not skippable: the whole point is that the last
+        /// clue is not the same moment as the answer.
+        /// </summary>
+        private IEnumerator ThinkTime()
+        {
+            float remaining = thinkingTime;
+
+            while (remaining > 0f)
+            {
+                // A red herring smelled during the think time would otherwise run
+                // the clock down behind the vision, and the card would land on top
+                // of it. The clock waits; the player is still thinking either way.
+                if (visionDirector != null && visionDirector.IsPlaying)
+                {
+                    hud.HideCountdown();
+                    yield return null;
+                    continue;
+                }
+
+                hud.ShowCountdown(Format(remaining));
+                remaining -= Time.deltaTime;
+                yield return null;
+            }
+
+            hud.HideCountdown();
+        }
+
+        /// <summary>Ceiling, so the timer shows "0:01" for a whole second and never "0:00".</summary>
+        private static string Format(float remaining)
+        {
+            int seconds = Mathf.Max(0, Mathf.CeilToInt(remaining));
+            return $"{seconds / 60}:{seconds % 60:00}";
         }
     }
 }

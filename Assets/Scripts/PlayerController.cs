@@ -19,7 +19,7 @@ namespace Flair
         [SerializeField] private Transform cameraPivot;
 
         [Header("Movement")]
-        [SerializeField] private float walkSpeed = 4f;
+        [SerializeField] private float walkSpeed = 5f;
 
         [Tooltip("Peak height of a jump, in metres.")]
         [SerializeField] private float jumpHeight = 1.1f;

@@ -22,6 +22,11 @@ namespace Flair
 
         [SerializeField] private Text promptLabel;
 
+        [Header("End countdown (optional)")]
+        [Tooltip("Small timer, top-right, counting down the think time before the " +
+                 "end card takes the screen.")]
+        [SerializeField] private Text countdownLabel;
+
         [Header("End card (optional -- leave empty until LevelEndScreen is wired)")]
         [Tooltip("Must sit BELOW the fade overlay in the Canvas, so it draws on top of black.")]
         [SerializeField] private GameObject endCardPanel;
@@ -48,6 +53,35 @@ namespace Flair
             if (endCardPanel != null)
             {
                 endCardPanel.SetActive(false);
+            }
+
+            if (countdownLabel != null)
+            {
+                countdownLabel.gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>Shows the think-time timer. Optional -- silent if unwired.</summary>
+        public void ShowCountdown(string text)
+        {
+            if (countdownLabel == null)
+            {
+                return;
+            }
+
+            countdownLabel.text = text;
+
+            if (!countdownLabel.gameObject.activeSelf)
+            {
+                countdownLabel.gameObject.SetActive(true);
+            }
+        }
+
+        public void HideCountdown()
+        {
+            if (countdownLabel != null)
+            {
+                countdownLabel.gameObject.SetActive(false);
             }
         }
 
