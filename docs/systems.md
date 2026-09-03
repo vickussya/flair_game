@@ -34,7 +34,15 @@ asset/tool/object library (inventory)
 6.5 The 2D Vision system (the watch-only cutscenes)
 How it works: a trigger (a key clue) plays a stylized 2D animated reconstruction; player control is removed, then returned.
 Vision trigger: what causes one? - an examined scent - only true ones; the fake ones lose time, concrecety, they are there to "run down" the smelling stamina
-Delivery tech: ▢ Pre-rendered video (Video Player) ▢ In-engine 2D animation (Animator/Timeline) - upto discussion
+Delivery tech: ☑ Pre-rendered video (Video Player) ▢ In-engine 2D animation (Animator/Timeline)
+DECIDED 3 Sep 2026. Both, with a clear division of labour:
+- PNG sequences are the MASTERS. Drawn per the style guide, kept in the repo, and the
+  thing anyone re-edits. Krita 2048, 32-bit RGBA.
+- A rendered video per vision is what the game PLAYS, through Unity's Video Player.
+Why not play the PNGs directly: at 12fps a 12-second vision is ~145 files. Five visions
+is 700+ image assets through Git LFS, and LFS is already the tightest constraint on this
+project. One video file per vision is a fraction of that and Unity streams it.
+This settles what task 19 builds: a VisionPlayer subclass driving a VideoPlayer.
 How is control removed & restored cleanly? - a pop-up button (one for "play the vision"; one for "replay" (in the library/inventory); one for closing)
 ❓ How long is a vision? (Short — players lose patience fast when they can't act.) - a few seconds (10-15s)
 ❓ Can a vision be skipped/replayed? (Strongly recommend skippable on replay.) - replayable - yes, NOT skippable; the more times the player replayes a vision, the more distorted it becomes and brings less/untrue info over time replayed

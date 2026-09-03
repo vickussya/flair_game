@@ -12,10 +12,13 @@ what the other is doing.
 **One finished level, done by 30 April**, submitted in May. Not a rough demo that
 gets replaced later — the real thing, built once, to final quality.
 
-**1 September is a progress checkpoint, not a deliverable.** We show the teachers
-what exists. It still has to *run* — "playable proof" is what was promised, and a
-thing that only opens in the editor does not count. But it does not have to be
-finished, and nothing is built twice to make that date.
+**1 September was a progress checkpoint, and it passed.** Shown on the day and
+well received. What was demonstrated: walking Bismarkstrasse under the noir
+grade, smelling three clues, a placeholder vision each time, the clue count
+filling, and an ending card.
+
+From here it is one continuous build to 30 April. No more checkpoints until the
+level is finished.
 
 That is the change from the old plan: there is no longer a rough version and a
 finished version. There is one build, and it gets further along.
@@ -37,6 +40,10 @@ finished version. There is one build, and it gets further along.
 | ✅ | **Stage 2** — vertical slice: marker → smell → vision → clue logged |
 | ✅ | **25** — test build, runs on another machine |
 | ✅ | **1** — Part 5 written: "The Hollow Vial" |
+| ✅ | **3, 13, 17, 20** — clue data model, block greybox, style guide, noir grade (Leta) |
+| ✅ | **4, 24** — clue gate, three clues placed and wired |
+| ✅ | **1 Sep checkpoint — shown and it went well.** The teacher liked it. |
+| ✅ | Scent inventory on E, smelling moved to F (Leta, ahead of schedule) |
 
 ## Phase 1 — the walkable spine · by **1 September**
 
