@@ -55,8 +55,12 @@ Bismarkstrasse - a claustrophobic, rain-slick street canyon deep inside the buri
 megalopolis of Unterstadt, in black, white and blood-red.
 
 VIEW & PERSPECTIVE
-In game: first person ("camera-eyes", see 6.2). The isometric view below exists only as a
-design reference, not as a camera the player ever gets. [inferred]
+In game: THIRD PERSON as of 3 Sep 2026 - a classic follow camera about 3.5m behind Bunk,
+so the animation is actually visible (see 6.2). It was first person until the September
+showing. The isometric view below exists only as a design reference, not as a camera the
+player ever gets. [inferred]
+Third person needs more room than first person did. The 12m streets and the 30x24 plaza are
+fine; the 5m alley with its right-angle corner is the one place the camera will struggle.
 Play area: a north-south rectangle, roughly 2:1. A street canyon, not an open field - but a
 walkable one. The first greybox was built to the letter of this section, at 3:1 with 8m streets,
 an 18m-deep plaza and a 3m alley, and it walked as claustrophobic in the bad sense. Streets are

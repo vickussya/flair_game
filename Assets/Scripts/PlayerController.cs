@@ -3,10 +3,16 @@ using UnityEngine;
 namespace Flair
 {
     /// <summary>
-    /// First-person player: walk, look, jump. Per concept.md 6.2 ("camera-eyes").
-    /// The camera itself is not parented here -- this only aims the eye anchor,
-    /// and PlayerCameraRig decides where the camera actually sits. That split is
-    /// what lets a vision take the camera away from the head.
+    /// Third-person player: walk, jump, and turn to face where you are going.
+    ///
+    /// The camera is not here -- PlayerCameraRig owns looking, and this only asks
+    /// it which way is "forward" so movement is relative to the view. Bunk then
+    /// rotates toward whatever direction is pushed, which is what gives the turn
+    /// and pivot animations something to do.
+    ///
+    /// Third person is per the teacher's note of 3 Sep 2026: in first person
+    /// nobody ever sees the animation, and animation is the point of this project.
+    /// concept.md 6.2 had already listed it as coming.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
@@ -15,34 +21,35 @@ namespace Flair
         [Tooltip("Leave empty to use the reader on this same object.")]
         [SerializeField] private PlayerInputReader input;
 
-        [Tooltip("Child transform at eye height. Pitches up/down; the body yaws.")]
+        [Tooltip("Head-height child. The camera orbits it; VisionDirector frames it. " +
+                 "No longer pitched here -- looking lives on the camera rig.")]
         [SerializeField] private Transform cameraPivot;
+
+        [Tooltip("Leave empty to use the main camera. Movement is relative to it.")]
+        [SerializeField] private Transform cameraTransform;
 
         [Header("Movement")]
         [SerializeField] private float walkSpeed = 5f;
 
+        [Tooltip("Degrees per second Bunk turns toward the direction you push.")]
+        [SerializeField] private float turnSpeed = 720f;
+
         [Tooltip("Peak height of a jump, in metres.")]
         [SerializeField] private float jumpHeight = 1.1f;
 
-        [Tooltip("Exaggerated on purpose -- real -9.81 feels floaty in first person.")]
+        [Tooltip("Exaggerated on purpose -- real -9.81 feels floaty.")]
         [SerializeField] private float gravity = -19.62f;
 
-        [Header("Look")]
-        [Tooltip("Degrees per unit of mouse delta.")]
-        [SerializeField] private float lookSensitivity = 0.1f;
-
-        [SerializeField] private float minPitch = -85f;
-        [SerializeField] private float maxPitch = 85f;
+        [Header("Cursor")]
         [SerializeField] private bool lockCursor = true;
 
         private CharacterController controller;
-        private float pitch;
         private float verticalVelocity;
 
-        /// <summary>The eye position a vision camera should frame.</summary>
+        /// <summary>The head-height point a vision camera should frame.</summary>
         public Transform CameraPivot => cameraPivot;
 
-        /// <summary>False while a vision has taken control away from the player.</summary>
+        /// <summary>False while a vision or the scent library has taken control.</summary>
         public bool ControlEnabled { get; private set; } = true;
 
         private void Awake()
@@ -84,8 +91,8 @@ namespace Flair
         }
 
         /// <summary>
-        /// Called by VisionDirector. While disabled the player is frozen in place --
-        /// gravity included, so do not disable control mid-air.
+        /// Called by VisionDirector and the scent library. While disabled Bunk is
+        /// frozen in place -- gravity included, so do not disable him mid-air.
         /// </summary>
         public void SetControlEnabled(bool value)
         {
@@ -104,30 +111,21 @@ namespace Flair
                 return;
             }
 
-            HandleLook();
             HandleMove();
-        }
-
-        private void HandleLook()
-        {
-            // Mouse delta is already per-frame, so no Time.deltaTime here.
-            Vector2 look = input.Look * lookSensitivity;
-
-            // Yaw turns the whole body so movement follows the camera.
-            transform.Rotate(Vector3.up, look.x);
-
-            // Pitch stays on the eye anchor only, clamped so you cannot backflip.
-            pitch = Mathf.Clamp(pitch - look.y, minPitch, maxPitch);
-            cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
 
         private void HandleMove()
         {
             Vector2 move = input.Move;
-            Vector3 direction = transform.right * move.x + transform.forward * move.y;
-            if (direction.sqrMagnitude > 1f)
+            Vector3 direction = CameraRelative(move);
+
+            // Turn toward the way you are going. RotateTowards rather than a snap
+            // so there is an actual turn to animate.
+            if (direction.sqrMagnitude > 0.0001f)
             {
-                direction.Normalize();
+                Quaternion target = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(
+                    transform.rotation, target, turnSpeed * Time.deltaTime);
             }
 
             if (controller.isGrounded)
@@ -148,6 +146,52 @@ namespace Flair
 
             Vector3 velocity = direction * walkSpeed + Vector3.up * verticalVelocity;
             controller.Move(velocity * Time.deltaTime);
+        }
+
+        /// <summary>
+        /// Turns stick/WASD input into a world direction relative to the camera,
+        /// flattened so looking up or down never slows Bunk down.
+        /// </summary>
+        private Vector3 CameraRelative(Vector2 move)
+        {
+            if (move.sqrMagnitude < 0.0001f)
+            {
+                return Vector3.zero;
+            }
+
+            Transform cam = ResolveCamera();
+
+            if (cam == null)
+            {
+                // No camera yet: fall back to Bunk's own facing rather than freezing.
+                return transform.forward * move.y + transform.right * move.x;
+            }
+
+            Vector3 forward = cam.forward;
+            Vector3 right = cam.right;
+            forward.y = 0f;
+            right.y = 0f;
+            forward.Normalize();
+            right.Normalize();
+
+            Vector3 direction = right * move.x + forward * move.y;
+            return direction.sqrMagnitude > 1f ? direction.normalized : direction;
+        }
+
+        private Transform ResolveCamera()
+        {
+            if (cameraTransform != null)
+            {
+                return cameraTransform;
+            }
+
+            Camera main = Camera.main;
+            if (main != null)
+            {
+                cameraTransform = main.transform;
+            }
+
+            return cameraTransform;
         }
     }
 }

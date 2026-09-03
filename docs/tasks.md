@@ -76,11 +76,13 @@ all Viki, which is the main scheduling risk on the board.
 | Oct | 41 | Interiors: droggery, church, Doctor's, office *(new)* | L | **Leta** |
 | Nov | 2 | Dialogue script — every line the cast speaks | M | **Viki** |
 | Nov | 5 | Client conversation → case start | M | **Viki** |
-| Nov | 11 | Bunk model | L | **Leta** |
+| Sep | 44 | Third-person conversion — follow rig, camera-relative movement *(new)* | M | **Viki** |
+| Nov | 11 | **Bunk**: model, rig, full animation set | L | **TBD — split** |
+| Nov | 45 | **Barbara**: model, rig, animation set *(promoted from Mar)* | L | **TBD — split** |
 | Dec | 35 | Midnight clock, advancing per action *(new)* | S | **Viki** |
 | Dec | 36 | Units economy + level results *(new)* | M | **Viki** |
 | Dec | 8 | Case file UI | L | **Viki** |
-| Dec | 12 | Bunk rig + animations | L | **Leta** |
+| Dec | 12 | Animation pass 2 — the verbs third person exposes | L | **TBD — split** |
 
 ## Phase 3 — the finale, content and art · **January → March**
 
@@ -98,7 +100,6 @@ all Viki, which is the main scheduling risk on the board.
 | Mar | 18+ | Remaining 2D visions | L | **split evenly** |
 | Mar | 9 | Vision play / replay / close controls | M | **Viki** |
 | Mar | 10 | Menu + results screen | M | **Viki** |
-| Mar | 38 | Barbara: model and rig *(new)* | M | **Leta** |
 | Mar | 16 | Character textures | M | **Leta** |
 | Mar | 31 | UI visual design: case file, board, menus | M | **Leta** |
 | Mar | 21 | Scent visual effect | M | **Leta** |
@@ -151,6 +152,12 @@ If it looks shaky in October, say so then rather than in February.
 
 **Phase 2 is Viki-heavy.** Six systems tasks in four months against Leta's art,
 which parallelises better. Watch it in October.
+
+**Third person moved the goalposts on animation (3 Sep).** Two characters now need
+full model, rig and animation sets — one each, per the teacher. That is a large
+amount of new art work, and it lands on top of a Phase 2 that was already tight.
+Whoever takes Bunk carries more: he needs every locomotion verb, where Barbara
+needs idles and talking. Decide the split before November rather than in it.
 
 **The 1 September checkpoint is 12 days away** and depends on task 3 landing now.
 

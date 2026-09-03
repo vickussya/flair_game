@@ -17,6 +17,20 @@ Controller type: ▢ CharacterController (simpler, recommended) ▢ Rigidbody ph
 Can the player run / crouch / interact? List verbs: run/sprint stamina. jump, crouch (warewolf - diff. physics)
 ❓ How does the camera work, and what can the player NOT do - camera-eyes
 
+PERSPECTIVE - DECIDED 3 Sep 2026: THIRD PERSON.
+Changed on the teacher's feedback after the September showing. We are animators, and in
+first person the player never sees a single frame of the animation we make. The camera is
+now a classic follow rig: ~3.5m behind and slightly above, orbited with the mouse, and
+Bunk turns to face whatever direction is pushed rather than strafing.
+What this costs, and it is the point: Bunk needs a real animation set - idle, walk, run,
+turn in place, jump, land, the smell gesture, the breath. Previously he needed almost
+nothing because nobody saw him.
+What it does not change: the camera was never parented to the player (see PlayerCameraRig),
+so the vision transition still works. It becomes a push-in rather than a reveal, because
+Bunk is already on screen.
+Watch: the service alley is 5m wide with a right-angle blind corner. The rig has a spring
+arm that pulls in when a wall is in the way, but the alley may need widening.
+
 6.3 The Smell system (👃 "Smell")
 How it works: player enters a scent zone → prompt appears → smelling reveals a trail / a vision / info.
 How is a scent shown to the player? (visual trail? screen-edge effect? audio?) - visual, sometimes deceptive (all scents will have the same visual design, but discovered only when smelled)

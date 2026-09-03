@@ -97,10 +97,12 @@ namespace Flair
                 yield return null;
             }
 
-            // 4. Back out under black, so the camera snap is never seen.
+            // 4. Back out under black, so the camera snap is never seen. In third
+            //    person the observation shot is a push-in rather than a reveal --
+            //    Bunk is already on screen -- so this returns to the follow rig.
             yield return hud.FadeTo(1f, fadeDuration);
             visionPlayer.End();
-            cameraRig.SnapToEye();
+            cameraRig.ResumeFollow();
 
             // 5. Bank the clue and hand control back.
             marker.AlreadyExamined = true;
