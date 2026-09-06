@@ -2885,11 +2885,12 @@ GameObject:
   m_Component:
   - component: {fileID: 277443566}
   - component: {fileID: 277443565}
-  - component: {fileID: 277443564}
   - component: {fileID: 277443563}
   - component: {fileID: 277443562}
   - component: {fileID: 277443567}
   - component: {fileID: 277443568}
+  - component: {fileID: 277443570}
+  - component: {fileID: 277443569}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -2912,7 +2913,7 @@ MonoBehaviour:
   player: {fileID: 914708074}
   cameraRig: {fileID: 330585548}
   focusPoint: {fileID: 765791688}
-  visionPlayer: {fileID: 0}
+  visionPlayer: {fileID: 277443569}
   hud: {fileID: 0}
   clueLog: {fileID: 0}
   observeDistance: 2.2
@@ -2933,19 +2934,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ClueLog
   cluesToUnlockFinale: 3
---- !u!114 &277443564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 277443561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b234604cb8c6e8d40b2c8f1c92178425, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Flair.PlaceholderVisionPlayer
-  hud: {fileID: 0}
 --- !u!114 &277443565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,6 +3020,59 @@ MonoBehaviour:
   unfoundColor: {r: 1, g: 1, b: 1, a: 0.25}
   completeColor: {r: 0.85, g: 0.1, b: 0.15, a: 1}
   rowFontSize: 22
+--- !u!114 &277443569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277443561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8f14f27d9e8af44a5e2829ee03605b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flair.VideoVisionPlayer
+  visions: []
+  videoPlayer: {fileID: 0}
+  hud: {fileID: 0}
+  prepareTimeout: 5
+  playbackGrace: 2
+--- !u!328 &277443570
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277443561}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 0}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &279622723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4296,6 +4337,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flair.PlayerCameraRig
   eyeAnchor: {fileID: 765791688}
+  input: {fileID: 0}
+  distance: 3.5
+  heightOffset: 0.35
+  lookSensitivity: 0.15
+  minPitch: -30
+  maxPitch: 60
+  startingPitch: 12
+  collisionRadius: 0.25
+  pullInSpeed: 40
+  pushOutSpeed: 6
 --- !u!1 &337740433
 GameObject:
   m_ObjectHideFlags: 0
@@ -13188,12 +13239,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flair.PlayerController
   input: {fileID: 0}
   cameraPivot: {fileID: 765791688}
+  cameraTransform: {fileID: 0}
   walkSpeed: 5
+  turnSpeed: 720
   jumpHeight: 1.1
   gravity: -19.62
-  lookSensitivity: 0.1
-  minPitch: -85
-  maxPitch: 85
   lockCursor: 1
 --- !u!114 &914708075
 MonoBehaviour:

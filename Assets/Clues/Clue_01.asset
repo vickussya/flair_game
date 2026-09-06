@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Clue_01
   m_EditorClassIdentifier: Assembly-CSharp::Flair.ClueData
   clueId: clue_01
-  displayName: Cordite and wet wool
+  displayName: The hollow vial
   description: 
   isTrueScent: 1
   leadsTo: {fileID: 11400000, guid: d5c49977936cc2e40b3180cc4810f725, type: 2}
   visionDuration: 3
-  visionId: 
+  visionId: vision_01_hollow_vial
