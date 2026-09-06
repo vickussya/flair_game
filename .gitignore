@@ -104,8 +104,31 @@ crashlytics-build.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,dotnetcore,visualstudiocode
-# Bunk's FBX is 54MB and the account's Git LFS budget is exhausted, so the
-# model is kept local for now and shared out-of-band. Remove these two lines
-# (and commit the .meta alongside the .fbx) once LFS has room again.
+# Bunk's FBX is 53MB. There is LFS room again as of 8 Sep 2026, but that is
+# three to ten times the budget docs/assets.md sets for a character, and every
+# committed version costs it again. Re-export him smaller first -- textures not
+# embedded, subdivision applied, decimated -- then delete these two lines and
+# commit the .fbx and its .meta together.
 /Assets/Characters/Bunk/Bunk.fbx
 /Assets/Characters/Bunk/Bunk.fbx.meta
+
+### Source files -- see docs/assets.md ###
+# Blender, Krita and Photoshop working files stay out of the game repo. A
+# character .blend runs 100-300MB and every save committed stores another whole
+# copy, which is how an LFS budget dies. Exports (.fbx, .png, .webm) are what
+# Unity imports and what belongs here.
+# Sources live in the shared FLAIR-source cloud folder instead.
+# If you genuinely need one tracked: git add -f says you meant it.
+*.blend
+*.blend[0-9]
+*.blend[0-9][0-9]
+*.kra
+*.kra~
+*.psd
+*.psb
+*.xcf
+*.clip
+*.sai2
+# Blender render output and caches
+/[Bb]lender[Cc]ache/
+*.blend1

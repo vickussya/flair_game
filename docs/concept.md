@@ -75,4 +75,9 @@ Parts 0 and 1 stay here because everything else is judged against them.
 [tasks.md](tasks.md)
   Who is building what, by when. The live board — read this one weekly.
 
+[assets.md](assets.md)
+  How art gets from Blender and Krita into the game, what belongs in the repo
+  and what does not, and the storage budget. Read before committing anything
+  binary.
+
 RULE: all of these are edited on the dev branch only, never on a personal branch.
