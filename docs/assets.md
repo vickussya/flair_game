@@ -134,16 +134,25 @@ The pattern holds, and most of the cost is one-off:
   made before anything real was built; once the street kit is done we will have
   actual numbers.
 
-## One thing to fix soon
+## A note on OneDrive, checked and cleared
 
-**This project lives inside OneDrive** (`OneDrive/Documenten/git/flair/`).
+The project sits under a OneDrive path (`OneDrive/Documenten/git/flair/`) because
+Windows redirects Documents into OneDrive by default — nobody chose it.
 
-OneDrive does not read `.gitignore`, so it is syncing `Library/` — a folder that
-is gigabytes, changes constantly, and is pure local cache. That wastes OneDrive
-quota, and worse, OneDrive can lock files while Unity is mid-import, which
-produces corruption that looks like random Unity bugs.
+**Sync is excluded for this folder, so it is not a problem.** Verified 8 Sep 2026:
+OneDrive is running for the account, but `Library/` carries none of the cloud
+placeholder attributes it would have if it were being synced.
 
-**Recommendation: move the project out of OneDrive.** Somewhere like
-`C:\dev\flair_game`. Git already gives you backup and history — OneDrive on top
-of it is redundant here and actively risky. Clone fresh from GitHub rather than
-moving the folder, so nothing half-synced comes with it.
+Worth knowing rather than acting on, because it can come back:
+
+- **On a new machine or a fresh Windows install**, the exclusion does not travel
+  with you. Check it before opening the project.
+- **Leta's clone may not be excluded.** If hers is under Documents and syncing,
+  she has the problem this section was written about.
+
+Why it matters when it does happen: OneDrive does not read `.gitignore`, so it
+syncs `Library/` — gigabytes of pure cache — and can lock files while Unity is
+mid-import, which surfaces as Unity corruption that looks like random bugs.
+
+If it ever needs fixing, clone fresh outside OneDrive rather than moving the
+folder: `Library/` is regenerable and a half-synced copy is not worth carrying.
