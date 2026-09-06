@@ -39,14 +39,54 @@ FLAIR-source/
 ```
 
 Cloud storage keeps 30 days of file history, which covers "I broke it yesterday".
-It does not give you branches or real version control on sources — if that starts
-to hurt, the upgrade is a **second git repo** (`flair-source`) with its own LFS
-budget, kept entirely separate from the game repo. Do not solve it by putting
-sources back in here.
+It does not give you branches or real version control on sources.
+
+If that starts to hurt, the upgrade is a **second git repo** (`flair-source`).
+Be clear about what it buys, though: **GitHub bills LFS per account, not per
+repository**, so a second repo shares this one's quota and saves nothing on
+storage. What it does buy is a game repo that stays small and fast to clone —
+nobody should pull 5GB of sculpts to fix a script — plus real history on the
+sources. Worth it when both of us are touching the same source files; not worth
+it while we each own a separate character.
+
+Either way, do not solve it by putting sources back in here.
 
 `.gitignore` actively blocks `.blend`, `.kra` and friends, so an absent-minded
 `git add -A` cannot cost you a data pack. If you ever genuinely need one tracked,
 `git add -f` says you meant it.
+
+## How a sculpted character becomes a game asset
+
+The thing to know before starting Bunk or Barbara: **the sculpt is never the game
+asset.**
+
+| Step | Where it lives |
+|---|---|
+| 1. Sculpt — millions of triangles | `.blend`, source folder. Never enters Unity |
+| 2. Retopologise — clean low-poly over the sculpt | `.blend` |
+| 3. UV unwrap the low-poly | `.blend` |
+| 4. Bake the high-poly detail down — normal, AO | outputs to the repo |
+| 5. Texture — base colour, roughness, normal | PNG to the repo |
+| 6. Rig — armature and weights | `.blend` |
+| 7. Export FBX — low-poly, armature, the takes the game plays | FBX to the repo |
+
+Step 4 is what makes the budgets below achievable rather than a fight. The
+sculpt's detail becomes a normal map, so twenty million triangles ship as twenty
+thousand and still read as sculpted.
+
+**Triangle budgets:** 15-30k for Bunk, who gets a close-up in the vision push-in.
+5-10k for anyone seen at a distance. At those counts an FBX lands inside the size
+budget on its own.
+
+**Export the rig as Humanoid.** It keeps Mixamo animation usable as a base for
+locomotion even after the placeholder character is gone, which is a real shortcut
+on the largest animation task we have.
+
+**On the Mixamo placeholder currently in Assets/Characters/Bunk/:** leave it. It
+is 53MB because a Mixamo download bundles the full skeleton, every take you
+ticked, and embedded textures at whatever size they ship. It is gitignored and
+shared by hand, which is the right handling for something we are replacing.
+Slimming a placeholder is wasted work.
 
 ## Export budgets
 
