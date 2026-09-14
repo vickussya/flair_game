@@ -69,6 +69,7 @@ all Viki, which is the main scheduling risk on the board.
 
 | Due | # | Task | Size | Owner |
 |---|---|---|---|---|
+| **NOW** | 46 | **Animated placeholder character in the demo** — idle, walk, action *(new)* | S | **Viki** |
 | Sep | 33 | Hologram scene — four customers, scent matching *(new)* | M | **Viki** |
 | Sep | 39 | Hologram visual style — semi-transparent, static wipe *(new)* | S | **Leta** |
 | Oct | 6 | Dialogue system (bubbles + choices) | L | **Viki** |
@@ -93,6 +94,8 @@ all Viki, which is the main scheduling risk on the board.
 | Jan | 14 | Environment modular kit | L | **Leta** |
 | Feb | 7 | Final confrontation — accusation, then the fight | L | **Viki** |
 | Feb | 40 | Draw the fight vision — Bunk vs the Penitent, the mask-tear *(new)* | M | **Leta** |
+| Feb | 47 | **Cinematic A, 30-40s** — the opening, Barbara hires Bunk *(diploma req.)* | L | **Viki** |
+| Feb | 48 | **Cinematic B, 30-40s** — the finale, unmasking and fight *(diploma req.)* | L | **Leta** |
 | Feb | 42 | Physical verbs — door shoulder, lock break, collar grab: animations *(new)* | S | **Leta** |
 | Feb | 43 | Physical verbs — triggers and hookup *(new)* | S | **Viki** |
 | Feb | 15 | Environment materials + textures | L | **Leta** |
@@ -158,6 +161,13 @@ full model, rig and animation sets — one each, per the teacher. That is a larg
 amount of new art work, and it lands on top of a Phase 2 that was already tight.
 Whoever takes Bunk carries more: he needs every locomotion verb, where Barbara
 needs idles and talking. Decide the split before November rather than in it.
+
+**The diploma brief added two cinematics (14 Sep).** 30-40 seconds each, one per
+person, on top of the clue visions. That is the single largest new commitment on
+this board -- a 40-second hand-drawn sequence at 12fps is roughly 480 frames --
+and it is non-negotiable, so it has to displace something rather than be absorbed.
+Each person also declares a minimum animation count per character, currently
+proposed at 8. See diplomna-koncepciya-bg.md.
 
 **The 1 September checkpoint is 12 days away** and depends on task 3 landing now.
 

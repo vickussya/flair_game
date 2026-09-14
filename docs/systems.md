@@ -59,6 +59,12 @@ project. One video file per vision is a fraction of that and Unity streams it.
 This settles what task 19 builds: a VisionPlayer subclass driving a VideoPlayer.
 How is control removed & restored cleanly? - a pop-up button (one for "play the vision"; one for "replay" (in the library/inventory); one for closing)
 ❓ How long is a vision? (Short — players lose patience fast when they can't act.) - a few seconds (10-15s)
+CLARIFIED 14 Sep 2026, after the teacher's brief. Two different things, do not confuse them:
+- CLUE VISIONS stay 10-15s. They interrupt play, so they have to be short.
+- CINEMATICS are 30-40s each, one per person, and they are a diploma requirement. They sit
+  where the player is not mid-investigation: the opening (Barbara hires Bunk) and the finale
+  (the unmasking and the fight). A 40s interruption is fine there and unbearable mid-clue.
+Both are drawn in the same style and both play through VideoVisionPlayer.
 ❓ Can a vision be skipped/replayed? (Strongly recommend skippable on replay.) - replayable - yes, NOT skippable; the more times the player replayes a vision, the more distorted it becomes and brings less/untrue info over time replayed
 ❓ List every vision the demo needs (see Part 7 content list) - upto discussion
 
