@@ -57,6 +57,17 @@ namespace Flair
         /// <summary>False while a vision has taken the camera away.</summary>
         public bool IsFollowing => following;
 
+        /// <summary>Set by TouchControls on phones, where pointer look cannot tell fingers apart.</summary>
+        public bool IgnorePointerLook { get; set; }
+
+        private Vector2 pendingTouchLook;
+
+        /// <summary>Degrees of yaw (x) and pitch (y) from the touch look zone, applied next frame.</summary>
+        public void AddTouchLook(Vector2 degrees)
+        {
+            pendingTouchLook += degrees;
+        }
+
         /// <summary>Camera facing, flattened to the ground. Movement steers by this.</summary>
         public Vector3 PlanarForward
         {
@@ -116,10 +127,17 @@ namespace Flair
 
             if (canLook)
             {
-                Vector2 look = input.Look * lookSensitivity;
+                // Look is bound to <Pointer>/delta, and on a phone every finger is a
+                // pointer -- a thumb on the joystick would spin the camera too. With
+                // touch controls on, only the dedicated look zone turns the camera.
+                Vector2 look = IgnorePointerLook ? Vector2.zero : input.Look * lookSensitivity;
+                look += pendingTouchLook;
+
                 yaw += look.x;
                 pitch = Mathf.Clamp(pitch - look.y, minPitch, maxPitch);
             }
+
+            pendingTouchLook = Vector2.zero;
 
             Vector3 pivot = eyeAnchor.position + Vector3.up * heightOffset;
             Quaternion orbit = Quaternion.Euler(pitch, yaw, 0f);

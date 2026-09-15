@@ -125,3 +125,10 @@ crashlytics-build.properties
 # Blender render output and caches
 /[Bb]lender[Cc]ache/
 *.blend1
+
+### Web build scratch -- see Assets/Editor/WebVisionBuildStep.cs ###
+# Visions are copied here only for the length of a web build, then removed. If a
+# build fails half-way the copy can linger; it must never be committed, because
+# the real file lives in Assets/Visions and a second copy would drift from it.
+/Assets/StreamingAssets/Visions/
+/Assets/StreamingAssets/Visions.meta

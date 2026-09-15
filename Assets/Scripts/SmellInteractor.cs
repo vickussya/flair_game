@@ -21,6 +21,9 @@ namespace Flair
                  "action ships with a Hold interaction.")]
         [SerializeField] private string promptFormat = "Hold F — Smell: {0}";
 
+        [Tooltip("Shown instead on phones, where there is no F key.")]
+        [SerializeField] private string touchPromptFormat = "Hold SNIFF — {0}";
+
         private ScentMarker currentTarget;
 
         private void Awake()
@@ -56,7 +59,8 @@ namespace Flair
                 return;
             }
 
-            hud.ShowPrompt(string.Format(promptFormat, currentTarget.DisplayName));
+            string format = TouchControls.IsActive ? touchPromptFormat : promptFormat;
+            hud.ShowPrompt(string.Format(format, currentTarget.DisplayName));
 
             if (input.InteractPerformedThisFrame)
             {

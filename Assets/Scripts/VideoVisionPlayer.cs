@@ -64,6 +64,10 @@ namespace Flair
         private ScentMarker currentMarker;
         private RenderTexture target;
 
+        // Kept from the clip asset at prepare time. On web builds the VideoPlayer
+        // plays by URL, so videoPlayer.clip is null and cannot be asked later.
+        private float currentClipLength;
+
         public override bool IsReady
         {
             get
@@ -198,9 +202,34 @@ namespace Flair
             Debug.Log($"VideoVisionPlayer: preparing '{currentVisionId}' " +
                       $"({clip.width}x{clip.height}, {clip.length:0.0}s)", this);
 
-            videoPlayer.clip = clip;
+            currentClipLength = (float)clip.length;
+            AssignSource(clip);
             SetState(State.Preparing);
             videoPlayer.Prepare();
+        }
+
+        /// <summary>
+        /// In a browser, Unity's VideoPlayer cannot play an imported VideoClip at
+        /// all -- only a file fetched by URL, which the browser decodes itself. So
+        /// web builds load the same MP4 from StreamingAssets, where
+        /// WebVisionBuildStep copies it during the build. Everywhere else the
+        /// imported clip is used, as before.
+        /// </summary>
+        private void AssignSource(VideoClip clip)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            string fileName = System.IO.Path.GetFileName(clip.originalPath);
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = clip.name + ".mp4";
+            }
+
+            videoPlayer.source = VideoSource.Url;
+            videoPlayer.url = Application.streamingAssetsPath + "/Visions/" + Uri.EscapeDataString(fileName);
+#else
+            videoPlayer.source = VideoSource.VideoClip;
+            videoPlayer.clip = clip;
+#endif
         }
 
         public override void Begin(ScentMarker marker)
@@ -227,7 +256,7 @@ namespace Flair
 
             // The clip's own length plus a little, so a stalled decode ends the
             // vision instead of leaving the player frozen with no way out.
-            deadline = Time.time + (float)videoPlayer.clip.length + playbackGrace;
+            deadline = Time.time + currentClipLength + playbackGrace;
             SetState(State.Playing);
             videoPlayer.Play();
 
