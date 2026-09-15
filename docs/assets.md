@@ -82,11 +82,16 @@ budget on its own.
 locomotion even after the placeholder character is gone, which is a real shortcut
 on the largest animation task we have.
 
-**On the Mixamo placeholder currently in Assets/Characters/Bunk/:** leave it. It
-is 53MB because a Mixamo download bundles the full skeleton, every take you
-ticked, and embedded textures at whatever size they ship. It is gitignored and
-shared by hand, which is the right handling for something we are replacing.
-Slimming a placeholder is wasted work.
+**On the Mixamo placeholder in Assets/Characters/Bunk/:** it is 53MB because a
+Mixamo download bundles the full skeleton and embedded textures at whatever size
+they ship. Slimming a placeholder is wasted work, so it is committed as-is --
+decided 15 Sep 2026, because the teacher wants an animated 3D character in the
+demo early and both of us need the body to work against. It is committed ONCE:
+do not commit new versions of it. When our own Bunk exists, that is a new file.
+
+**The Mixamo animations are not throwaway.** `Bunk_Idle`, `Bunk_Walk` and
+`Bunk_Sniff` import as Humanoid (enforced by `CharacterImportRules`), so they
+retarget onto any humanoid rig -- including the Bunk we sculpt. Keep them.
 
 ## Export budgets
 

@@ -104,13 +104,6 @@ crashlytics-build.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,dotnetcore,visualstudiocode
-# Bunk's FBX is 53MB. There is LFS room again as of 8 Sep 2026, but that is
-# three to ten times the budget docs/assets.md sets for a character, and every
-# committed version costs it again. Re-export him smaller first -- textures not
-# embedded, subdivision applied, decimated -- then delete these two lines and
-# commit the .fbx and its .meta together.
-/Assets/Characters/Bunk/Bunk.fbx
-/Assets/Characters/Bunk/Bunk.fbx.meta
 
 ### Source files -- see docs/assets.md ###
 # Blender, Krita and Photoshop working files stay out of the game repo. A
