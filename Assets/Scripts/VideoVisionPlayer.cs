@@ -11,9 +11,9 @@ namespace Flair
     /// 3 Sep 2026: PNG sequences are the masters, one rendered video per vision
     /// is what the game plays.
     ///
-    /// Drops into VisionDirector's Vision Player slot in place of
-    /// PlaceholderVisionPlayer. The director is untouched -- that was the point
-    /// of building VisionPlayer as a slot back in Stage 2.
+    /// Loads during Bunk's sniff (Prepare), starts playing when the director begins
+    /// the dissolve (Begin), and is faded over the 3D scene with SetOpacity -- so
+    /// the world blends into the vision rather than cutting through black.
     ///
     /// A clue with no video yet falls back to the placeholder panel rather than
     /// breaking, because the visions arrive one at a time over months and the
@@ -46,53 +46,90 @@ namespace Flair
         [SerializeField] private RawImage surface;
 
         [Header("Safety")]
-        [Tooltip("If a video will not prepare in this long, give up and move on. " +
-                 "Without it a missing codec would lock the player out of the game.")]
+        [Tooltip("If a video will not prepare in this long, fall back to the panel. " +
+                 "Without it a missing codec would stall the vision indefinitely.")]
         [SerializeField] private float prepareTimeout = 5f;
 
         [Tooltip("Extra seconds allowed past the clip's own length before we call it stuck.")]
         [SerializeField] private float playbackGrace = 2f;
 
-        private enum State { Idle, Preparing, Playing, Placeholder, Done }
+        private enum Mode { None, Video, Panel }
+        private enum State { Idle, Preparing, Ready, Playing, Done }
 
+        private Mode mode = Mode.None;
         private State state = State.Idle;
         private float stateEnteredAt;
         private float deadline;
         private string currentVisionId;
+        private ScentMarker currentMarker;
         private RenderTexture target;
+
+        public override bool IsReady
+        {
+            get
+            {
+                if (mode == Mode.Panel)
+                {
+                    return true;
+                }
+
+                if (state == State.Preparing && Time.time - stateEnteredAt > prepareTimeout)
+                {
+                    Debug.LogError($"VideoVisionPlayer: '{currentVisionId}' never prepared, using the " +
+                                   "panel instead. Check the clip imports and the codec.", this);
+                    SwitchToPanel();
+                    return true;
+                }
+
+                return state == State.Ready;
+            }
+        }
 
         public override bool IsFinished
         {
             get
             {
-                switch (state)
+                if (state == State.Done)
                 {
-                    case State.Placeholder:
-                        return Time.time >= deadline;
-
-                    case State.Preparing:
-                        if (Time.time - stateEnteredAt > prepareTimeout)
-                        {
-                            Debug.LogError($"VideoVisionPlayer: '{currentVisionId}' never prepared. " +
-                                           "Check the clip imports and the platform codec.", this);
-                            SetState(State.Done);
-                            return true;
-                        }
-                        return false;
-
-                    case State.Playing:
-                        if (Time.time > deadline)
-                        {
-                            Debug.LogWarning($"VideoVisionPlayer: '{currentVisionId}' overran its " +
-                                             "own length. Ending it rather than hanging.", this);
-                            SetState(State.Done);
-                            return true;
-                        }
-                        return false;
-
-                    default:
-                        return true;
+                    return true;
                 }
+
+                if (state != State.Playing)
+                {
+                    return false;
+                }
+
+                if (Time.time > deadline)
+                {
+                    if (mode == Mode.Video)
+                    {
+                        Debug.LogWarning($"VideoVisionPlayer: '{currentVisionId}' overran its own " +
+                                         "length. Ending it rather than hanging.", this);
+                    }
+
+                    SetState(State.Done);
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public override float SecondsRemaining
+        {
+            get
+            {
+                if (state != State.Playing)
+                {
+                    return 0f;
+                }
+
+                if (mode == Mode.Video && videoPlayer.isPlaying)
+                {
+                    return Mathf.Max(0f, (float)(videoPlayer.length - videoPlayer.time));
+                }
+
+                return Mathf.Max(0f, deadline - Time.time);
             }
         }
 
@@ -110,8 +147,7 @@ namespace Flair
 
             // Render into a texture shown on the Canvas. This replaced the camera
             // near plane mode, which under URP can simply never draw -- the vision
-            // "played" to an empty screen. A RawImage on the Canvas also sits below
-            // the fade overlay by construction, so the crossfade still covers it.
+            // "played" to an empty screen.
             videoPlayer.playOnAwake = false;
             videoPlayer.isLooping = false;
             videoPlayer.renderMode = VideoRenderMode.RenderTexture;
@@ -138,8 +174,9 @@ namespace Flair
             }
         }
 
-        public override void Begin(ScentMarker marker)
+        public override void Prepare(ScentMarker marker)
         {
+            currentMarker = marker;
             ClueData clue = marker != null ? marker.Clue : null;
             currentVisionId = clue != null ? clue.VisionId : string.Empty;
 
@@ -147,14 +184,15 @@ namespace Flair
 
             if (clip == null || !EnsureSurface())
             {
-                BeginPlaceholder(marker, clue);
+                SwitchToPanel();
                 return;
             }
 
-            // Solid black until the first frame exists, so the fade-in from black
-            // reveals black rather than a flash of the 3D scene behind the video.
+            mode = Mode.Video;
+
+            // Present but invisible while it loads; the director fades it up.
             surface.texture = null;
-            surface.color = Color.black;
+            surface.color = new Color(1f, 1f, 1f, 0f);
             surface.gameObject.SetActive(true);
 
             Debug.Log($"VideoVisionPlayer: preparing '{currentVisionId}' " +
@@ -163,6 +201,53 @@ namespace Flair
             videoPlayer.clip = clip;
             SetState(State.Preparing);
             videoPlayer.Prepare();
+        }
+
+        public override void Begin(ScentMarker marker)
+        {
+            if (mode == Mode.None)
+            {
+                // Called without Prepare -- do it now rather than show nothing.
+                Prepare(marker);
+            }
+
+            if (mode == Mode.Panel)
+            {
+                ClueData clue = currentMarker != null ? currentMarker.Clue : null;
+                string name = clue != null ? clue.DisplayName : "An unfamiliar scent";
+                float length = currentMarker != null ? currentMarker.VisionDuration : 3f;
+
+                hud.SetVisionOpacity(0f);
+                hud.ShowVision($"2D VISION — NOT DRAWN YET\n\n{name}\n({currentVisionId})");
+
+                deadline = Time.time + length;
+                SetState(State.Playing);
+                return;
+            }
+
+            // The clip's own length plus a little, so a stalled decode ends the
+            // vision instead of leaving the player frozen with no way out.
+            deadline = Time.time + (float)videoPlayer.clip.length + playbackGrace;
+            SetState(State.Playing);
+            videoPlayer.Play();
+
+            Debug.Log($"VideoVisionPlayer: playing '{currentVisionId}'", this);
+        }
+
+        public override void SetOpacity(float opacity)
+        {
+            if (mode == Mode.Video && surface != null)
+            {
+                // Until the first frame exists the RawImage has no texture, and an
+                // untextured RawImage draws solid white. Tint it black instead.
+                surface.color = surface.texture != null
+                    ? new Color(1f, 1f, 1f, opacity)
+                    : new Color(0f, 0f, 0f, opacity);
+            }
+            else if (mode == Mode.Panel)
+            {
+                hud.SetVisionOpacity(opacity);
+            }
         }
 
         public override void End()
@@ -179,18 +264,26 @@ namespace Flair
             }
 
             hud.HideVision();
+
+            mode = Mode.None;
+            currentMarker = null;
             SetState(State.Idle);
         }
 
-        private void BeginPlaceholder(ScentMarker marker, ClueData clue)
+        private void SwitchToPanel()
         {
-            string name = clue != null ? clue.DisplayName : "An unfamiliar scent";
-            float length = marker != null ? marker.VisionDuration : 3f;
+            if (videoPlayer != null && videoPlayer.isPlaying)
+            {
+                videoPlayer.Stop();
+            }
 
-            hud.ShowVision($"2D VISION — NOT DRAWN YET\n\n{name}\n({currentVisionId})");
+            if (surface != null)
+            {
+                surface.gameObject.SetActive(false);
+            }
 
-            deadline = Time.time + length;
-            SetState(State.Placeholder);
+            mode = Mode.Panel;
+            SetState(State.Ready);
         }
 
         private VideoClip FindClip(string visionId)
@@ -213,7 +306,7 @@ namespace Flair
 
         /// <summary>
         /// Finds or builds the full-screen RawImage. It is placed directly beneath
-        /// FadeOverlay in the Canvas, so the black fade always draws over the video.
+        /// FadeOverlay in the Canvas, so the level's black fades still draw over it.
         /// </summary>
         private bool EnsureSurface()
         {
@@ -248,7 +341,10 @@ namespace Flair
 
         private void OnPrepared(VideoPlayer source)
         {
-            if (state != State.Preparing)
+            // Normally this lands while Preparing. If the dissolve outwaited a slow
+            // load, Begin has already called Play and we are Playing -- still wire
+            // the texture, or the video would play to nothing.
+            if (state != State.Preparing && state != State.Playing)
             {
                 return;
             }
@@ -268,17 +364,20 @@ namespace Flair
                 target.Create();
             }
 
+            // A fresh RenderTexture holds whatever was in that memory. Clear it so
+            // the first moment of the dissolve is black rather than noise.
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = target;
+            GL.Clear(true, true, Color.black);
+            RenderTexture.active = previous;
+
             source.targetTexture = target;
             surface.texture = target;
-            surface.color = Color.white;
 
-            // The clip's own length plus a little, so a stalled decode ends the
-            // vision instead of leaving the player frozen with no way out.
-            deadline = Time.time + (float)source.length + playbackGrace;
-            SetState(State.Playing);
-            source.Play();
-
-            Debug.Log($"VideoVisionPlayer: playing '{currentVisionId}'", this);
+            if (state == State.Preparing)
+            {
+                SetState(State.Ready);
+            }
         }
 
         private void OnReachedEnd(VideoPlayer source)
@@ -292,7 +391,16 @@ namespace Flair
         private void OnError(VideoPlayer source, string message)
         {
             Debug.LogError($"VideoVisionPlayer: '{currentVisionId}' failed -- {message}", this);
-            SetState(State.Done);
+
+            // Before it has been seen, the panel can still stand in. After, just end.
+            if (state == State.Preparing)
+            {
+                SwitchToPanel();
+            }
+            else
+            {
+                SetState(State.Done);
+            }
         }
 
         private void SetState(State next)

@@ -198,16 +198,8 @@ namespace Flair.EditorTools
                 }
             }
 
-            // The sniff is the breath the vision transition waits on, so time the
-            // hold to the real clip. The camera move already covers the first part.
-            VisionDirector director = Object.FindFirstObjectByType<VisionDirector>();
-            if (director != null)
-            {
-                SerializedObject so = new SerializedObject(director);
-                float move = so.FindProperty("moveToObserveDuration").floatValue;
-                so.FindProperty("breathHoldDuration").floatValue = Mathf.Max(0.5f, sniff.length - move);
-                so.ApplyModifiedPropertiesWithoutUndo();
-            }
+            // The dissolve into a vision is timed from the Sniff state at runtime
+            // (VisionDirector reads the Animator), so nothing needs setting here.
         }
     }
 }

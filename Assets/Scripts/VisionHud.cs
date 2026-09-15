@@ -99,7 +99,35 @@ namespace Flair
             visionPanel.SetActive(true);
         }
 
-        public void HideVision() => visionPanel.SetActive(false);
+        public void HideVision()
+        {
+            visionPanel.SetActive(false);
+            SetVisionOpacity(1f);
+        }
+
+        /// <summary>
+        /// Fades the placeholder panel, so a clue with no drawn vision yet still
+        /// dissolves in and out rather than popping. The CanvasGroup is added on
+        /// first use, so the scene needs no rewiring.
+        /// </summary>
+        public void SetVisionOpacity(float opacity)
+        {
+            if (visionGroup == null)
+            {
+                visionGroup = visionPanel.GetComponent<CanvasGroup>();
+                if (visionGroup == null)
+                {
+                    visionGroup = visionPanel.AddComponent<CanvasGroup>();
+                }
+
+                visionGroup.blocksRaycasts = false;
+                visionGroup.interactable = false;
+            }
+
+            visionGroup.alpha = opacity;
+        }
+
+        private CanvasGroup visionGroup;
 
         public void ShowEndCard(string text)
         {

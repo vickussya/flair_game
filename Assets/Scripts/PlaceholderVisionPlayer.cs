@@ -17,6 +17,8 @@ namespace Flair
 
         public override bool IsFinished => !playing || Time.time >= finishTime;
 
+        public override float SecondsRemaining => playing ? Mathf.Max(0f, finishTime - Time.time) : 0f;
+
         private void Awake()
         {
             if (hud == null)
@@ -36,8 +38,11 @@ namespace Flair
             playing = true;
             finishTime = Time.time + marker.VisionDuration;
 
+            hud.SetVisionOpacity(0f);
             hud.ShowVision($"2D VISION — PLACEHOLDER\n\n{marker.DisplayName}\n({marker.ClueId})");
         }
+
+        public override void SetOpacity(float opacity) => hud.SetVisionOpacity(opacity);
 
         public override void End()
         {

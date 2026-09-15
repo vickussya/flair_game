@@ -230,8 +230,10 @@ project requirement, not a preference.
 2. Implement the three members: `Begin`, `IsFinished`, `End`.
 3. On `GameSystems`, replace `PlaceholderVisionPlayer` with it and drag the new
    component into `VisionDirector`'s Vision Player field.
-4. Hook Leta's deep-breath animation into `VisionDirector.breathHoldDuration` and
-   set that duration to the clip's real length.
+4. ~~Hook the breath animation into `VisionDirector.breathHoldDuration`.~~
+   Superseded 15 Sep 2026: that field is gone. The director now reads the
+   **Sniff** state from the Animator at runtime and starts the dissolve halfway
+   through it, so any sniff animation times itself -- only the state name matters.
 
 **Done when:** a real 2D vision plays through the existing transition and
 `VisionDirector` was not modified to make it work.
