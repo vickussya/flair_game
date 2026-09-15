@@ -45,6 +45,20 @@ finished version. There is one build, and it gets further along.
 | ✅ | **1 Sep checkpoint — shown and it went well.** The teacher liked it. |
 | ✅ | Scent inventory on E, smelling moved to F (Leta, ahead of schedule) |
 
+## Placeholders — replace before submission
+
+Everything in the build that is not ours. The teacher allowed stock material in the
+**demo**; none of it may reach the **diploma submission**, where our own work is
+what gets graded. Check this list before every showing.
+
+| In the build now | File | Replaced by |
+|---|---|---|
+| Bunk's body — Mixamo character | `Assets/Characters/Bunk/Bunk.fbx` | our own Bunk (task 11) |
+| Bunk's idle, walk, sniff — Mixamo | `Assets/Characters/Bunk/Animations/` | our own animations (tasks 11, 12). Mixamo stays as timing reference only |
+| Vision 01 — stock "ink in water", graded to the palette | `Assets/Visions/vision_01_hollow_vial.mp4` | Viki's hand-drawn hollow vial (task 18a). **Overwrite the file in place, same name** |
+
+When one is replaced, delete its row.
+
 ## Phase 1 — the walkable spine · by **1 September**
 
 Goal for the checkpoint: **walk the block, smell three clues, watch one real

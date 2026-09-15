@@ -89,9 +89,12 @@ decided 15 Sep 2026, because the teacher wants an animated 3D character in the
 demo early and both of us need the body to work against. It is committed ONCE:
 do not commit new versions of it. When our own Bunk exists, that is a new file.
 
-**The Mixamo animations are not throwaway.** `Bunk_Idle`, `Bunk_Walk` and
-`Bunk_Sniff` import as Humanoid (enforced by `CharacterImportRules`), so they
-retarget onto any humanoid rig -- including the Bunk we sculpt. Keep them.
+**The Mixamo animations are placeholders too.** `Bunk_Idle`, `Bunk_Walk` and
+`Bunk_Sniff` import as Humanoid (enforced by `CharacterImportRules`), so they would
+technically retarget onto the Bunk we sculpt. But for the diploma our animations
+are what is graded, so they must not ship in the submission. Keep them as timing
+and blocking reference while animating, then replace them. See the placeholder
+register in tasks.md.
 
 ## Export budgets
 

@@ -15,6 +15,71 @@ namespace Flair.EditorTools
     /// </summary>
     public static class VisionPlayerSetup
     {
+        private const string VisionsFolder = "Assets/Visions";
+
+        /// <summary>
+        /// Maps every video in Assets/Visions to the clue with the same name: a file
+        /// called vision_01_hollow_vial.mp4 plays for the clue whose visionId is
+        /// vision_01_hollow_vial.
+        ///
+        /// The name is the contract. That is what lets a finished vision replace a
+        /// placeholder by overwriting the file in place -- same name, same GUID,
+        /// nothing to rewire.
+        /// </summary>
+        [MenuItem("FLAIR/Vision/Map Videos From Assets-Visions")]
+        public static void MapVideos()
+        {
+            GameObject systems = GameObject.Find("GameSystems");
+            VideoVisionPlayer player = systems != null ? systems.GetComponent<VideoVisionPlayer>() : null;
+
+            if (player == null)
+            {
+                Debug.LogError("[VisionPlayerSetup] No VideoVisionPlayer on GameSystems. " +
+                               "Run FLAIR > Vision > Install Video Vision Player first.");
+                return;
+            }
+
+            SerializedObject so = new SerializedObject(player);
+            SerializedProperty list = so.FindProperty("visions");
+
+            int mapped = 0;
+            foreach (string guid in AssetDatabase.FindAssets("t:VideoClip", new[] { VisionsFolder }))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                VideoClip clip = AssetDatabase.LoadAssetAtPath<VideoClip>(path);
+                string visionId = System.IO.Path.GetFileNameWithoutExtension(path);
+
+                SerializedProperty entry = FindOrAddEntry(list, visionId);
+                entry.FindPropertyRelative("visionId").stringValue = visionId;
+                entry.FindPropertyRelative("clip").objectReferenceValue = clip;
+
+                Debug.Log($"[VisionPlayerSetup] {visionId} -> {path} ({clip.length:0.0}s)");
+                mapped++;
+            }
+
+            so.ApplyModifiedProperties();
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+
+            Debug.Log(mapped == 0
+                ? "[VisionPlayerSetup] No videos found in " + VisionsFolder + "."
+                : $"[VisionPlayerSetup] Mapped {mapped} vision(s). Save with Ctrl+S.");
+        }
+
+        private static SerializedProperty FindOrAddEntry(SerializedProperty list, string visionId)
+        {
+            for (int i = 0; i < list.arraySize; i++)
+            {
+                SerializedProperty existing = list.GetArrayElementAtIndex(i);
+                if (existing.FindPropertyRelative("visionId").stringValue == visionId)
+                {
+                    return existing;
+                }
+            }
+
+            list.arraySize++;
+            return list.GetArrayElementAtIndex(list.arraySize - 1);
+        }
+
         [MenuItem("FLAIR/Vision/Install Video Vision Player")]
         public static void Install()
         {

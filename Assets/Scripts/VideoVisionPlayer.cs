@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 namespace Flair
@@ -40,6 +41,10 @@ namespace Flair
         [SerializeField] private VideoPlayer videoPlayer;
         [SerializeField] private VisionHud hud;
 
+        [Tooltip("Full-screen RawImage the video is drawn onto. Leave empty and one is " +
+                 "created under the Canvas, just beneath the fade overlay.")]
+        [SerializeField] private RawImage surface;
+
         [Header("Safety")]
         [Tooltip("If a video will not prepare in this long, give up and move on. " +
                  "Without it a missing codec would lock the player out of the game.")]
@@ -54,6 +59,7 @@ namespace Flair
         private float stateEnteredAt;
         private float deadline;
         private string currentVisionId;
+        private RenderTexture target;
 
         public override bool IsFinished
         {
@@ -102,13 +108,14 @@ namespace Flair
                 return;
             }
 
-            // Render straight onto the camera's near plane: no RenderTexture asset
-            // to create and wire, and the Canvas -- including the fade overlay --
-            // still draws on top, which is what the crossfade depends on.
+            // Render into a texture shown on the Canvas. This replaced the camera
+            // near plane mode, which under URP can simply never draw -- the vision
+            // "played" to an empty screen. A RawImage on the Canvas also sits below
+            // the fade overlay by construction, so the crossfade still covers it.
             videoPlayer.playOnAwake = false;
             videoPlayer.isLooping = false;
-            videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
-            videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
 
             videoPlayer.prepareCompleted += OnPrepared;
             videoPlayer.loopPointReached += OnReachedEnd;
@@ -117,14 +124,18 @@ namespace Flair
 
         private void OnDestroy()
         {
-            if (videoPlayer == null)
+            if (videoPlayer != null)
             {
-                return;
+                videoPlayer.prepareCompleted -= OnPrepared;
+                videoPlayer.loopPointReached -= OnReachedEnd;
+                videoPlayer.errorReceived -= OnError;
             }
 
-            videoPlayer.prepareCompleted -= OnPrepared;
-            videoPlayer.loopPointReached -= OnReachedEnd;
-            videoPlayer.errorReceived -= OnError;
+            if (target != null)
+            {
+                target.Release();
+                Destroy(target);
+            }
         }
 
         public override void Begin(ScentMarker marker)
@@ -134,20 +145,20 @@ namespace Flair
 
             VideoClip clip = FindClip(currentVisionId);
 
-            if (clip == null)
+            if (clip == null || !EnsureSurface())
             {
                 BeginPlaceholder(marker, clue);
                 return;
             }
 
-            videoPlayer.targetCamera = ResolveCamera();
+            // Solid black until the first frame exists, so the fade-in from black
+            // reveals black rather than a flash of the 3D scene behind the video.
+            surface.texture = null;
+            surface.color = Color.black;
+            surface.gameObject.SetActive(true);
 
-            if (videoPlayer.targetCamera == null)
-            {
-                Debug.LogWarning("VideoVisionPlayer: no camera to render onto, using the panel.", this);
-                BeginPlaceholder(marker, clue);
-                return;
-            }
+            Debug.Log($"VideoVisionPlayer: preparing '{currentVisionId}' " +
+                      $"({clip.width}x{clip.height}, {clip.length:0.0}s)", this);
 
             videoPlayer.clip = clip;
             SetState(State.Preparing);
@@ -159,6 +170,12 @@ namespace Flair
             if (videoPlayer != null && videoPlayer.isPlaying)
             {
                 videoPlayer.Stop();
+            }
+
+            if (surface != null)
+            {
+                surface.texture = null;
+                surface.gameObject.SetActive(false);
             }
 
             hud.HideVision();
@@ -194,9 +211,39 @@ namespace Flair
             return null;
         }
 
-        private Camera ResolveCamera()
+        /// <summary>
+        /// Finds or builds the full-screen RawImage. It is placed directly beneath
+        /// FadeOverlay in the Canvas, so the black fade always draws over the video.
+        /// </summary>
+        private bool EnsureSurface()
         {
-            return videoPlayer.targetCamera != null ? videoPlayer.targetCamera : Camera.main;
+            if (surface != null)
+            {
+                return true;
+            }
+
+            GameObject fade = GameObject.Find("FadeOverlay");
+            if (fade == null || fade.transform.parent == null)
+            {
+                Debug.LogWarning("VideoVisionPlayer: no FadeOverlay under a Canvas to place " +
+                                 "the video beneath. Showing the placeholder panel instead.", this);
+                return false;
+            }
+
+            GameObject go = new GameObject("VisionVideoSurface", typeof(RectTransform), typeof(RawImage));
+            go.transform.SetParent(fade.transform.parent, false);
+            go.transform.SetSiblingIndex(fade.transform.GetSiblingIndex());
+
+            RectTransform rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+
+            surface = go.GetComponent<RawImage>();
+            surface.raycastTarget = false;
+            go.SetActive(false);
+            return true;
         }
 
         private void OnPrepared(VideoPlayer source)
@@ -206,11 +253,32 @@ namespace Flair
                 return;
             }
 
+            int w = (int)source.width;
+            int h = (int)source.height;
+
+            if (target == null || target.width != w || target.height != h)
+            {
+                if (target != null)
+                {
+                    target.Release();
+                    Destroy(target);
+                }
+
+                target = new RenderTexture(w, h, 0) { name = "VisionVideo" };
+                target.Create();
+            }
+
+            source.targetTexture = target;
+            surface.texture = target;
+            surface.color = Color.white;
+
             // The clip's own length plus a little, so a stalled decode ends the
             // vision instead of leaving the player frozen with no way out.
             deadline = Time.time + (float)source.length + playbackGrace;
             SetState(State.Playing);
             source.Play();
+
+            Debug.Log($"VideoVisionPlayer: playing '{currentVisionId}'", this);
         }
 
         private void OnReachedEnd(VideoPlayer source)
