@@ -120,6 +120,14 @@ namespace Flair.EditorTools
 
             sm.defaultState = idleState;
 
+            // Foot IK pins the feet to where the clip put them after retargeting.
+            // Without it a Mixamo clip on a different body can bend a knee the
+            // wrong way or let a foot drift -- often on one leg only. It lives on
+            // each state, which is why it is so hard to find in the Inspector.
+            idleState.iKOnFeet = true;
+            walkState.iKOnFeet = true;
+            sniffState.iKOnFeet = true;
+
             AnimatorStateTransition toWalk = idleState.AddTransition(walkState);
             toWalk.hasExitTime = false;
             toWalk.duration = 0.15f;
