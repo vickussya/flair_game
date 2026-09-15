@@ -218,14 +218,14 @@ namespace Flair
         private void AssignSource(VideoClip clip)
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
-            string fileName = System.IO.Path.GetFileName(clip.originalPath);
-            if (string.IsNullOrEmpty(fileName))
-            {
-                fileName = clip.name + ".mp4";
-            }
-
+            // Always <clip name>.mp4. Do not derive it from clip.originalPath: visions
+            // are transcoded to VP8 on import, and in a build that path reports .webm --
+            // which asked the server for a file that was never there (a 404, and no
+            // vision). MP4 is the delivery format decided in systems.md 6.5, and
+            // WebVisionBuildStep refuses anything else.
             videoPlayer.source = VideoSource.Url;
-            videoPlayer.url = Application.streamingAssetsPath + "/Visions/" + Uri.EscapeDataString(fileName);
+            videoPlayer.url = Application.streamingAssetsPath + "/Visions/" +
+                              Uri.EscapeDataString(clip.name) + ".mp4";
 #else
             videoPlayer.source = VideoSource.VideoClip;
             videoPlayer.clip = clip;

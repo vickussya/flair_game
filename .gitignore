@@ -132,3 +132,9 @@ crashlytics-build.properties
 # the real file lives in Assets/Visions and a second copy would drift from it.
 /Assets/StreamingAssets/Visions/
 /Assets/StreamingAssets/Visions.meta
+
+### Burst output from web builds ###
+# Unity's Burst compiler writes lib_burst_generated.cpp/.wasm into Data/Plugins
+# at the project root during a web build, rather than into Builds/. It is a
+# build artifact, regenerated every time.
+/Data/

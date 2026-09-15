@@ -54,6 +54,16 @@ namespace Flair.EditorTools
                     continue;
                 }
 
+                // The web player requests <name>.mp4 and nothing else, so a vision
+                // in any other format would build fine and then 404 in the browser.
+                // Say so now, at build time, rather than on the teacher's screen.
+                if (ext != ".mp4")
+                {
+                    Debug.LogError($"[WebVisionBuildStep] {Path.GetFileName(file)} is not an MP4, so it will " +
+                                   "not play in the web build. Render visions as MP4 (systems.md 6.5).");
+                    continue;
+                }
+
                 File.Copy(file, Path.Combine(TargetFolder, Path.GetFileName(file)), true);
                 copied++;
             }
