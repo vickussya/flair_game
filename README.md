@@ -70,3 +70,25 @@ The live plan is [docs/tasks.md](docs/tasks.md).
 
 We are building one finished level, done by **30 April**. 1 September is a
 progress checkpoint, not a separate deliverable.
+
+## Licence
+
+The **code** in this repository is licensed under the **GNU General Public
+License v3.0** — see [LICENSE](LICENSE).
+
+What that covers and what it does not:
+
+| | |
+|---|---|
+| ✅ **Covered** | The C# we wrote: gameplay, editor tools, build scripts |
+| ❌ **Not covered** | The story, characters and world — those are Emil Minchev's, from the novel *Нюх*, and permission is not yet arranged |
+| ❌ **Not covered** | Third-party assets: the Mixamo placeholder character and animations, the stock vision footage, the reference images |
+| ⬜ **Undecided** | Our own art — models, textures, drawn visions, audio. GPL is written for software and fits art poorly; a Creative Commons licence would suit it better |
+
+A licence can only grant what we actually hold, so it applies to our code and
+nothing else. Everything third-party is listed in [CREDITS.md](CREDITS.md),
+with its own terms.
+
+**Before this repository is made public**, settle the rights question with the
+author, and remove or replace the third-party material that cannot be
+redistributed — the Mixamo files in particular.
